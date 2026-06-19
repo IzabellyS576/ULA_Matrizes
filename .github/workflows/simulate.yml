@@ -20,8 +20,8 @@ jobs:
       #IMPORTANTE: TROQUEM "meu_circuito.vhdl" PELO NOME DO ARQUIVO QUE VOCÊS VÃO COMPILAR (e do testebench tb também)!!!!
       - name: Analisar arquivos
         run: |
-          ghdl -a src/meu_circuito.vhdl 
-          ghdl -a tb/tb_meu_circuito.vhdl
+          ghdl -a src/soma.vhdl 
+          ghdl -a tb/tb_soma.vhdl
 
       - name: Elaborar
         run: ghdl -e tb_meu_circuito
