@@ -18,6 +18,11 @@ jobs:
         run: sudo apt-get install -y ghdl
 
       #IMPORTANTE: TROQUEM "meu_circuito.vhdl" PELO NOME DO ARQUIVO QUE VOCÊS VÃO COMPILAR (e do testebench tb também)!!!!
+      - name: Listar arquivos
+        run: |
+          ls -la src/
+          ls -la tb/
+          
       - name: Analisar arquivos
         run: |
           ghdl -a src/soma.vhdl 
