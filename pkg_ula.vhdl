@@ -3,8 +3,8 @@ use ieee.std_logic_1164.all;
 
 package pkg_ula is
 
-    constant W : integer := 8;   -- largura dos dados de entrada
-    constant S : integer := 19;  -- largura dos dados de saída
+    constant W : integer := 8;
+    constant S : integer := 19;
 
     type t_comandos is record
         ci            : std_logic;
