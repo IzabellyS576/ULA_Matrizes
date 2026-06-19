@@ -24,10 +24,10 @@ jobs:
           ghdl -a tb/tb_soma.vhdl
 
       - name: Elaborar
-        run: ghdl -e tb_meu_circuito
+        run: ghdl -e tb_soma
 
       - name: Simular
-        run: ghdl -r tb_meu_circuito --vcd=waveform.vcd
+        run: ghdl -r tb_soma --vcd=waveform.vcd
 
       - name: Salvar waveform como artefato
         uses: actions/upload-artifact@v4
