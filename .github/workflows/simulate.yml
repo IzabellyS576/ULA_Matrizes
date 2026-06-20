@@ -25,6 +25,15 @@ jobs:
           
       - name: Analisar arquivos
         run: |
+          ghdl -a src/ula_pack.vhdl
+          ghdl -a src/mult_escalar.vhdl 
+          ghdl -a tb/tb_mult_escalar.vhdl
+
+      - name: Elaborar
+        run: ghdl -e tb_mult_escalar
+
+      - name: Simular
+        run: ghdl -r tb_mult_escalar --vcd=waveform.vcd
           ghdl -a src/soma.vhdl 
           ghdl -a tb/tb_soma.vhdl
 
