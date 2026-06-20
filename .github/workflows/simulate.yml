@@ -18,16 +18,22 @@ jobs:
         run: sudo apt-get install -y ghdl
 
       #IMPORTANTE: TROQUEM "meu_circuito.vhdl" PELO NOME DO ARQUIVO QUE VOCÊS VÃO COMPILAR (e do testebench tb também)!!!!
+      - name: Listar arquivos
+        run: |
+          ls -la src/
+          ls -la tb/
+          
       - name: Analisar arquivos
         run: |
-          ghdl -a src/meu_circuito.vhdl 
-          ghdl -a tb/tb_meu_circuito.vhdl
+          ghdl -a src/ula_pack.vhdl
+          ghdl -a src/mult_escalar.vhdl 
+          ghdl -a tb/tb_mult_escalar.vhdl
 
       - name: Elaborar
-        run: ghdl -e tb_meu_circuito
+        run: ghdl -e tb_mult_escalar
 
       - name: Simular
-        run: ghdl -r tb_meu_circuito --vcd=waveform.vcd
+        run: ghdl -r tb_mult_escalar --vcd=waveform.vcd
 
       - name: Salvar waveform como artefato
         uses: actions/upload-artifact@v4
