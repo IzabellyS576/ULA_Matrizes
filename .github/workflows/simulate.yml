@@ -34,6 +34,14 @@ jobs:
 
       - name: Simular
         run: ghdl -r tb_mult_escalar --vcd=waveform.vcd
+          ghdl -a src/soma.vhdl 
+          ghdl -a tb/tb_soma.vhdl
+
+      - name: Elaborar
+        run: ghdl -e tb_soma
+
+      - name: Simular
+        run: ghdl -r tb_soma --vcd=waveform.vcd
 
       - name: Salvar waveform como artefato
         uses: actions/upload-artifact@v4
