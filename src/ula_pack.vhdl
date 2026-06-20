@@ -38,14 +38,14 @@ package ula_pack is
 
     -- Calcula o número de bits necessários para representar o maior produto que a ULA pode obter.
     -- O resultado é: 2* bits_per_value + ceil(log2(bits_per_value))
-    function ula_length(bits_per_value : positive, matrix_size : positive)
+    function ula_length(bits_per_value : positive; matrix_size : positive)
     return positive;
 
 end package ula_pack;
 
 package body ula_pack is
 
-    function ula_length(bits_per_value : positive)
+    function ula_length(bits_per_value : positive; matrix_size : positive)
     return positive is
     begin
         return 2 * bits_per_value + integer(ceil(log2(real(matrix_size))));
