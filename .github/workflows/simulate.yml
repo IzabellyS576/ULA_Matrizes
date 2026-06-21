@@ -25,14 +25,21 @@ jobs:
           
       - name: Analisar arquivos
         run: |
+          ghdl -a src/ula_pack.vhdl
+          ghdl -a src/mult_escalar.vhdl 
+          ghdl -a tb/tb_mult_escalar.vhdl
           ghdl -a src/soma.vhdl 
           ghdl -a tb/tb_soma.vhdl
 
       - name: Elaborar
-        run: ghdl -e tb_soma
+        run: |
+         ghdl -e tb_mult_escalar
+         ghdl -e tb_soma
 
       - name: Simular
-        run: ghdl -r tb_soma --vcd=waveform.vcd
+        run: |
+         ghdl -r tb_mult_escalar --vcd=waveform.vcd
+         ghdl -r tb_soma --vcd=waveform.vcd
 
       - name: Salvar waveform como artefato
         uses: actions/upload-artifact@v4
