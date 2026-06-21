@@ -15,6 +15,7 @@ ENTITY convolucao IS
 END convolucao;
 
 ARCHITECTURE arch OF convolucao IS
+BEGIN
     product <= in_A * in_B;
 
-END ARCHITECTURE; -- arch
+END ARCHITECTURE arch; -- arch
