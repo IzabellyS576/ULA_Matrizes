@@ -8,8 +8,8 @@ ENTITY convolucao IS
 		W : positive := 8
 	);
 	PORT (
-		in_A     : IN  signed(W-1 DOWNTO 0);
-		in_B     : IN  signed(W-1 DOWNTO 0);
+		input_a     : IN  signed(W-1 DOWNTO 0);
+		input_b     : IN  signed(W-1 DOWNTO 0);
 		product : OUT signed(2*W-1 DOWNTO 0)
 	);
 END convolucao;
