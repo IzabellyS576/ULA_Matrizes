@@ -54,7 +54,7 @@ begin
     testing(127,-128,-16256);
     testing(-128,1,-128);
     testing(-128,0,0);
-    testing(64,-64,4096);
+    testing(64,-64,-4096);
     testing(100,100,10000);
     testing(-100,100,-10000);
 
