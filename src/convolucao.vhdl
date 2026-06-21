@@ -16,6 +16,6 @@ END convolucao;
 
 ARCHITECTURE arch OF convolucao IS
 BEGIN
-    product <= input_a * input_a;
+    product <= input_a * input_b;
 
 END ARCHITECTURE arch; -- arch
