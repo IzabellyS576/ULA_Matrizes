@@ -29,8 +29,8 @@ st: process
         expected : in integer
     ) is
         begin
-            in_a <= to_signed(a, W_BITS);
-            in_b <= to_signed(b, W_BITS);
+            input_a <= to_signed(a, W_BITS);
+            input_b <= to_signed(b, W_BITS);
             wait for period;
             assert (to_integer(output_value) = expected) report "FALHA: " & integer'image(a) & " * " & integer'image(b) &
               " = " & integer'image(to_integer(output_value)) &
