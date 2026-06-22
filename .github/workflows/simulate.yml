@@ -1,0 +1,55 @@
+name: VHDL Simulation
+
+on:
+  push:
+    branches: ["*"]
+  pull_request:
+    branches: ["*"]
+
+jobs:
+  simulate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Instalar GHDL
+        run: sudo apt-get install -y ghdl
+
+      #IMPORTANTE: TROQUEM "meu_circuito.vhdl" PELO NOME DO ARQUIVO QUE VOCÊS VÃO COMPILAR (e do testebench tb também)!!!!
+      - name: Listar arquivos
+        run: |
+          ls -la src/
+          ls -la tb/
+          
+      - name: Analisar arquivos
+        run: |
+          ghdl -a src/ula_pack.vhdl
+
+          ghdl -a src/mult_escalar.vhdl 
+          ghdl -a tb/tb_mult_escalar.vhdl
+
+          ghdl -a src/soma.vhdl 
+          ghdl -a tb/tb_soma.vhdl
+
+          ghdl -a src/convolucao.vhdl
+          ghdl -a tb/tb_convolucao.vhdl
+
+      - name: Elaborar
+        run: |
+         ghdl -e tb_mult_escalar
+         ghdl -e tb_soma
+         ghdl -e tb_convolucao
+
+      - name: Simular
+        run: |
+         ghdl -r tb_mult_escalar --vcd=waveform.vcd
+         ghdl -r tb_soma --vcd=waveform.vcd
+         ghdl -r tb_convolucao --vcd=waveform.vcd
+
+      - name: Salvar waveform como artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: waveform
+          path: waveform.vcd
