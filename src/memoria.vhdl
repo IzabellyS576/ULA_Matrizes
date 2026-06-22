@@ -5,22 +5,22 @@ use ieee.numeric_std.all;
 entity memoria is
         generic (
         CFG : datapath_configuration_t := (
-            bits_per_element => bits_per_element,
-            lines_per_mem => lines_per_mem
+            bits_per_element => 8,
+            lines_per_mem => 64
         )
     );
     port (
         clk          : in  std_logic;
         ler          : in  std_logic;
         escrever     : in  std_logic;
-        endereco     : in  std_logic_vector(5 downto 0);  -- 6 bits → 0..63
-        dado_entrada : in  std_logic_vector(bits_per_element-1 downto 0);
-        dado_saida   : out std_logic_vector(bits_per_element-1 downto 0)
+        endereco     : in  std_logic_vector(ceil_log2(CFG.lines_per_mem) - 1 downto 0);
+        dado_entrada : in  signed(CFG.bits_per_element-1 downto 0);
+        dado_saida   : out signed(CFG.bits_per_element-1 downto 0)
     );
 end entity;
 
 architecture arch of memoria is
-    type mem_t is array (0 to lines_per_mem-1) of std_logic_vector(bits_per_element-1 downto 0);
+    type mem_t is array (0 to CFG.lines_per_mem-1) of signed(CFG.bits_per_element-1 downto 0);
     signal mem : mem_t := (others => (others => '0'));
 begin
     --escrita sincrona

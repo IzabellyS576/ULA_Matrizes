@@ -5,8 +5,8 @@ entity mux_8to1 is
 	generic(N : positive);
 	port(
 		sel        : in  std_logic_vector(2 downto 0);
-		in_0, in_1, in_2, in_3, in_4, in_5, in_6, in_7 : in  std_logic_vector(N - 1 downto 0);
-		y          : out std_logic_vector(N - 1 downto 0)
+		in_0, in_1, in_2, in_3, in_4, in_5, in_6, in_7 : in  signed(N - 1 downto 0);
+		y          : out signed(N - 1 downto 0)
 	);
 end mux_8to1;
 
