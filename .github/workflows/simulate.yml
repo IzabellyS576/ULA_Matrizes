@@ -33,6 +33,9 @@ jobs:
           ghdl -a src/soma.vhdl 
           ghdl -a tb/tb_soma.vhdl
 
+          ghdl -a src/subtracao.vhdl 
+          ghdl -a tb/tb_subtracao.vhdl
+
           ghdl -a src/convolucao.vhdl
           ghdl -a tb/tb_convolucao.vhdl
 
@@ -40,12 +43,14 @@ jobs:
         run: |
          ghdl -e tb_mult_escalar
          ghdl -e tb_soma
+         ghdl -e tb_subtracao
          ghdl -e tb_convolucao
 
       - name: Simular
         run: |
          ghdl -r tb_mult_escalar --vcd=waveform.vcd
          ghdl -r tb_soma --vcd=waveform.vcd
+         ghdl -r tb_subtracao --vcd=waveform.vcd
          ghdl -r tb_convolucao --vcd=waveform.vcd
 
       - name: Salvar waveform como artefato
