@@ -5,8 +5,8 @@ use work.ula_pack.all;
 
 entity ula is
 	generic(
-        W : positive := 8;
-        N : positive := 3;
+        W : positive := 8; -- 'tamanho' em bits das entradas das operações (elementoA, elementoB e escalar)
+        N : positive := 3; -- ordem das matrizes sendo operadas
 	);
 	port(
 		inic     : in  std_logic;     -- iniciar
@@ -17,8 +17,8 @@ entity ula is
         escalar : in std_logic_vector (W-1 downto 0);
         op_code : in std_logic_vector (2 downto 0);
         
-        elementoC : out signed(ula_length(bits_per_value => W, matrix_size => N)-1 downto 0);
-        endr : out std_logic_vector(5 downto 0);
+        elementoC : out signed(ula_length(bits_per_value => W, matrix_size => N)-1 downto 0); -- 'tamanho' dado pelo pior caso que um elemento da matriz pode assumir após a multiplicação matricial
+        endr : out std_logic_vector(5 downto 0); -- endereço
         ler_mem   : out std_logic;     -- read
         escr_mem : out std_logic;
         pronto       : out std_logic      -- pronto
@@ -33,6 +33,18 @@ begin
     port map();
 
     ULA_BO: entity work.ula_bo()
+    generic map()
+    port map ();
+
+    MEM_A: entity work.nomedoarquivodamemoria()
+    generic map()
+    port map ();
+
+    MEM_B: entity work.nomedoarquivodamemoria()
+    generic map()
+    port map ();
+
+    MEM_C: entity work.nomedoarquivodamemoria()
     generic map()
     port map ();
     
