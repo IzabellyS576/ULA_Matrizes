@@ -3,10 +3,10 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.ula_pack.all;
 
-entity controle_tb is
+entity tb_bc is
 end entity;
 
-architecture sim of controle_tb is
+architecture sim of tb_bc is
 
     constant CLK_PERIOD : time := 10 ns;
 
@@ -23,7 +23,7 @@ architecture sim of controle_tb is
 
 begin
 
-    uut: entity work.controle 
+    uut: entity work.bc 
         port map (
             clk          => clk,
             rst          => rst,
