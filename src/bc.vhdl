@@ -325,7 +325,7 @@ begin
                 comandos.zRegSaida <= '-';
 
                 ler <= '1';
-                escrever <= '1';
+                escrever <= '0';
                 pronto <= '0';
 
             WHEN S5 =>
