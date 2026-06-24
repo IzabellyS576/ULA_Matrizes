@@ -57,6 +57,8 @@ begin
 
       end loop;
 
+      wait until rising_edge(clk);
+
       assert (to_integer(output_value) = expected)
       report "FALHA: obtido=" & integer'image(to_integer(output_value)) &
         ", esperado=" & integer'image(expected)
@@ -65,7 +67,7 @@ begin
     end procedure;
 
   begin
-    assert false report "BOT" severity note;
+    assert false report "BOT multiplicacao" severity note;
     testing((1, 2, 3), (4, 5, 6), 32);
 
     testing((0, 0, 0), (1, 2, 3), 0);
@@ -86,7 +88,7 @@ begin
     testing((1, 2, 3), (1, 0, 0), 1);
     testing((1, 2, 3), (0, 1, 0), 2);
     testing((1, 2, 3), (0, 0, 1), 3);
-    assert false report "EOT" severity note;
+    assert false report "EOT multiplicacao" severity note;
     wait;
   end process;
 
