@@ -129,7 +129,8 @@ begin
     testing((1, 2, 3), (0, 1, 0), 2);
     testing((1, 2, 3), (0, 0, 1), 3);
     assert false report "EOT multiplicacao" severity note;
-    finished <= true; --substitui o wait; para parar o clock generator
+    finished <= true; --parar o clock generator
+    wait;
   end process;
 
 end sim;
