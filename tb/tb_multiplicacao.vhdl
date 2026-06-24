@@ -43,11 +43,24 @@ architecture sim of tb_multiplicacao is
   cOp       => '0',
   zRegSaida => '0'
   );
-  constant period : time := 20 ns;
+  constant period : time    := 20 ns;
+  signal finished : boolean := false; --para o clock generator quando o teste terminar
 
 begin
 
-  clk <= not clk after period/2;
+  --clk <= not clk after period/2;
+
+  clock_gen : process --clock generator respeitando o período definido
+  begin
+    while not finished loop
+      clk <= '0';
+      wait for period/2;
+      clk <= '1';
+      wait for period/2;
+    end loop;
+    wait;
+  end process;
+
   DUT : entity work.multiplicacao(arch)
     generic map(W => W, N => N)
     port map
@@ -116,7 +129,7 @@ begin
     testing((1, 2, 3), (0, 1, 0), 2);
     testing((1, 2, 3), (0, 0, 1), 3);
     assert false report "EOT multiplicacao" severity note;
-    --wait;
+    finished <= true; --substitui o wait; para parar o clock generator
   end process;
 
 end sim;
