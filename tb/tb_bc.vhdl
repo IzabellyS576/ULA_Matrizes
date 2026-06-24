@@ -102,7 +102,7 @@ begin
         -- Variável auxiliar para preencher o record esperado com todos os sinais = 0 em cada estado
         variable cmd_esperado : comandos_t;
 
-        procedure s0_ate_s8 is (
+        procedure s0_ate_s8 (
             constant op_desejado : in std_logic_vector(2 downto 0)
         ) is
         begin
