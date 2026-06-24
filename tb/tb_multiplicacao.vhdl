@@ -14,11 +14,14 @@ architecture sim of tb_multiplicacao is
   constant N : positive  := 8;
   signal clk : std_logic := '0';
 
-  signal in_a         : signed(W - 1 downto 0);
-  signal in_b         : signed(W - 1 downto 0);
+  signal in_a         : signed(W - 1 downto 0) := (others => '0');
+  signal in_b         : signed(W - 1 downto 0) := (others => '0');
   signal output_value : signed(ula_length(W, N) - 1 downto 0);
-  signal comandos     : comandos_t;
-  constant period     : time := 20 ns;
+  signal comandos     : comandos_t := (
+  cAc => '0',
+  zAc => '1'
+  );
+  constant period : time := 20 ns;
 
 begin
 
