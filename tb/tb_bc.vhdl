@@ -23,6 +23,28 @@ architecture sim of tb_bc is
 
     signal sim_done : boolean := false;
 
+    -- Compara dois records comandos_t tratando '-' como "não importa"
+    function cmd_match(a, b : comandos_t) return boolean is
+    begin
+        return std_match(a.cEnd, b.cEnd) and
+               std_match(a.zEnd, b.zEnd) and
+               std_match(a.ci,   b.ci)   and
+               std_match(a.zi,   b.zi)   and
+               std_match(a.cJ,   b.cJ)   and
+               std_match(a.zJ,   b.zJ)   and
+               std_match(a.cW,   b.cW)   and
+               std_match(a.zW,   b.zW)   and
+               std_match(a.zMultMatricial, b.zMultMatricial) and
+               std_match(a.cA,   b.cA)   and
+               std_match(a.cB,   b.cB)   and
+               std_match(a.cK,   b.cK)   and
+               std_match(a.zMult, b.zMult) and
+               std_match(a.cAc,  b.cAc)  and
+               std_match(a.zAc,  b.zAc)  and
+               std_match(a.cOp,  b.cOp)  and
+               std_match(a.zRegSaida, b.zRegSaida);
+    end function;
+
 begin
 
     uut: entity work.bc 
@@ -97,7 +119,7 @@ begin
                 severity error;
                 
             -- Valida todos os sinais que estão dentro do record de uma vez só
-            assert (comandos = cmd_exp)
+            assert cmd_match(comandos, cmd_exp)
                 report "FALHA no record de comandos em: " & msg
                 severity error;
         end procedure;
