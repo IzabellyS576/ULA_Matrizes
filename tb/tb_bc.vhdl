@@ -21,6 +21,8 @@ architecture sim of tb_bc is
     signal status    : status_t   := (i_menor => '0', j_menor => '0', w_menor => '0');
     signal comandos  : comandos_t;
 
+    signal sim_done : boolean := false;
+
 begin
 
     uut: entity work.bc 
