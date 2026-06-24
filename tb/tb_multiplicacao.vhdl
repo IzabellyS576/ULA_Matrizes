@@ -2,7 +2,6 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.ula_pack.all;
-use std.env.all;
 
 entity tb_multiplicacao is
 end entity tb_multiplicacao;
@@ -116,9 +115,8 @@ begin
     testing((1, 2, 3), (1, 0, 0), 1);
     testing((1, 2, 3), (0, 1, 0), 2);
     testing((1, 2, 3), (0, 0, 1), 3);
-    assert false report "EOT multiplicacao" severity note;
-    std.env.stop;
-    --wait;
+    assert false report "EOT multiplicacao" severity failure;
+    wait;
   end process;
 
 end sim;
