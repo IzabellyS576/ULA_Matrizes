@@ -31,7 +31,7 @@ architecture arch of multiplicacao is
 
 begin
 
-  multi_elementos  <= resize(input_a, 2 * W) * resize(input_b, 2 * W); -- multiplicação dos dois números de entrada
+  multi_elementos  <= input_a * input_b; -- multiplicação dos dois números de entrada
   multi_elementos2 <= resize(multi_elementos, tamanho_saida); -- resize da multiplicação para o tamanho da saída
 
   saida_soma <= multi_elementos2 + ac; -- soma da multiplicação com o acumulador
