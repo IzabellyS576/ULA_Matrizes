@@ -13,14 +13,12 @@ entity multiplicacao is
   );
   port (
     clk     : in std_logic;
-    rst     : in std_logic; --???
     input_a : in signed(W - 1 downto 0);
     input_b : in signed(W - 1 downto 0);
 
     comandos : in comandos_t;
 
     multi : out signed(ula_length(W, N) - 1 downto 0);
-    --status : out status_t
 
   );
 end multiplicacao;
@@ -33,12 +31,12 @@ architecture arch of multiplicacao is
 
 begin
 
-  multi_elementos  <= input_a * input_b; -- multiplicação dos dois números de entrada
+  multi_elementos  <= resize(input_a, 2W) * resize(input_b, 2W); -- multiplicação dos dois números de entrada
   multi_elementos2 <= resize(multi_elementos, tamanho_saida); -- resize da multiplicação para o tamanho da saída
 
   saida_soma <= multi_elementos2 + ac; -- soma da multiplicação com o acumulador
 
-  MUX : entity work.mux_2to1
+  MUXAC : entity work.mux_2to1
     generic map(
       N => tamanho_saida
     )
@@ -52,14 +50,14 @@ begin
 
   saida_mux2 <= signed(saida_mux); -- conversão da saída do mux para signed
 
-  REG : entity work.reg_signed
+  REGAC : entity work.reg_signed
     generic map(
       N => tamanho_saida
     )
     port map
     (
       clk    => clk,
-      rst    => rst,
+      rst    => '0',
       enable => comandos.cAc,
       d      => saida_mux,
       q      => ac

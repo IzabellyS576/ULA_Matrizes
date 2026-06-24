@@ -10,13 +10,9 @@ architecture sim of tb_multiplicacao is
 
   type int_array is array (natural range <>) of integer;
 
-  constant A_tests : int_array := (4, 0, 2, -2, -2, 5, -5, 3);
-  constant B_tests : int_array := (2, 1, 3, 3, -3, 4, -7, 2);
-  constant E_tests : int_array := (8, 8, 14, 8, 14, 34, 69, 75);
-  constant W       : positive  := 8;
-  constant N       : positive  := 8;
-  signal clk       : std_logic := '0';
-  signal rst       : std_logic := '1';
+  constant W : positive  := 8;
+  constant N : positive  := 8;
+  signal clk : std_logic := '0';
 
   signal input_a  : signed(W - 1 downto 0);
   signal input_b  : signed(W - 1 downto 0);
@@ -32,7 +28,6 @@ begin
     port map
     (
       clk      => clk,
-      rst      => rst,
       input_a  => input_a,
       input_b  => input_b,
       comandos => comandos,
@@ -40,41 +35,37 @@ begin
     );
 
   st : process
-    -- procedure testing(
-    --   a        : in integer; --vetor como integer assim dá?
-    --   k        : in integer;
-    --   expected : in integer
-    -- ) is
-  begin
-    assert false report "BOT" severity note;
+    procedure testing(
+      a        : in int_array;
+      b        : in int_array;
+      expected : in integer
+    ) is
+    begin
+      assert false report "BOT" severity note;
 
-    rst <= '1';
-    wait for rising_edge(clk);
-    rst <= '0';
-    wait for rising_edge(clk);
+      comandos.cAc <= '1';
+      comandos.zAc <= '0';
 
-    comandos.zAc <= '0';
-    comandos.cAc <= '1';
+      wait until rising_edge(clk);
 
-    wait until rising_edge(clk);
+      comandos.zAc <= '1';
+      wait until rising_edge(clk);
 
-    comandos.zAc <= '1';
-    wait until rising_edge(clk);
-    for i in A_tests'range loop
-      input_a <= to_signed(A_tests(i), W);
-      input_b <= to_signed(B_tests(i), W);
+      for i in a'range loop
+        input_a <= to_signed(a(i), W);
+        input_b <= to_signed(b(i), W);
 
-      wait for rising_edge(clk);
+        wait for rising_edge(clk);
 
-      assert (to_integer(multi) = E_tests(i))
+      end loop;
+
+      assert (to_integer(multi) = expected)
       report "FALHA: obtido=" & integer'image(to_integer(multi)) &
-        ", esperado=" & integer'image(E_tests(i))
+        ", esperado=" & integer.image(expected)
         severity error;
 
-    end loop;
+      assert false report "EOT" severity note;
+      wait;
+    end process;
 
-    assert false report "EOT" severity note;
-    wait;
-  end process;
-
-end architecture sim;
+  end architecture sim;
