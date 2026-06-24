@@ -23,7 +23,7 @@ architecture sim of tb_multiplicacao is
 begin
 
   clk <= not clk after period/2;
-  DUT : entity work.multiplicacao
+  DUT : entity work.multiplicacao(arch)
     generic map(W => W, N => N)
     port map
     (

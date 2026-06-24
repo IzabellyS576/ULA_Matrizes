@@ -36,7 +36,7 @@ begin
 
   saida_soma <= multi_elementos2 + ac; -- soma da multiplicação com o acumulador
 
-  MUXAC : entity work.mux_2to1
+  MUXAC : entity work.mux_2to1(rtl)
     generic map(
       N => tamanho_saida
     )
@@ -50,7 +50,7 @@ begin
 
   saida_mux2 <= signed(saida_mux); -- conversão da saída do mux para signed
 
-  REGAC : entity work.reg_signed
+  REGAC : entity work.reg_signed(rtl)
     generic map(
       N => tamanho_saida
     )
