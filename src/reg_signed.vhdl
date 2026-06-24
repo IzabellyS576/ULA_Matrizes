@@ -2,7 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity registrador is
+entity reg_signed is
   generic (
     N : positive := 8
   );
@@ -15,7 +15,7 @@ entity registrador is
   );
 end entity;
 
-architecture rtl of registrador is
+architecture rtl of reg_signed is
   signal reg : signed(N - 1 downto 0);
 begin
 
