@@ -25,15 +25,16 @@ begin
 
     uut: entity work.bc 
         port map (
-            clk          => clk,
-            rst          => rst,
-            iniciar      => iniciar,
-            pronto       => pronto,
-            ler          => ler,
-            escrever     => escrever,
-            op_code      => op_code,
-            status_in    => status,   
-            comandos_out => comandos  
+            clk => clk,
+            rst => rst,
+            iniciar  => iniciar,
+            status  => status,
+            op_code  => op_code,
+
+            ler  => ler,
+            escrever  => escrever,
+            pronto => pronto,
+            comandos => comandos  
         );
 
     
@@ -242,7 +243,7 @@ begin
 
         -- Em S5 -> S2
         cmd_esperado := (
-            ci => '1', zi => '1', cJ => '1', zJ = '0',
+            ci => '1', zi => '1', cJ => '1', zJ => '0',
             others => '0');
 
         passo_e_verifica(
@@ -293,7 +294,7 @@ begin
 
         -- Em S17 -> S7
         cmd_esperado := (
-            ci => '1', zi => '1', cJ => '1', zJ = '0',
+            ci => '1', zi => '1', cJ => '1', zJ => '0',
             others => '0');
 
         passo_e_verifica(
@@ -362,7 +363,7 @@ begin
 
         -- Em S22 -> S19
         cmd_esperado := (
-            ci > '1', zi => '1', cJ => '1', zJ => '0',
+            ci => '1', zi => '1', cJ => '1', zJ => '0',
             others => '0');
 
         passo_e_verifica(
@@ -403,7 +404,7 @@ begin
 
         --em S9 -> S8
         cmd_esperado := (
-            cA => '1', cB => '1', cJ => '1', zJ = '1', zMultMatricial ='0', zRegSaida = '0',
+            cA => '1', cB => '1', cJ => '1', zJ => '1', zMultMatricial => '0', zRegSaida => '0',
             others => '0');
 
         passo_e_verifica(
@@ -431,7 +432,7 @@ begin
 
         --em S10 -> S8
         cmd_esperado := (
-            cA => '1', cB => '1', cJ => '1', zJ = '1', zMultMatricial ='0', zRegSaida = '0',
+            cA => '1', cB => '1', cJ => '1', zJ => '1', zMultMatricial => '0', zRegSaida => '0',
             others => '0');
 
         passo_e_verifica(
@@ -459,7 +460,7 @@ begin
 
         --em S11 -> S8
         cmd_esperado := (
-            cA => '1', cJ => '1', zJ = '1', zMultMatricial ='0', zRegSaida = '1',
+            cA => '1', cJ => '1', zJ => '1', zMultMatricial => '0', zRegSaida => '1',
             others => '0');
 
         passo_e_verifica(
@@ -487,7 +488,7 @@ begin
 
         --em S12 -> S8
         cmd_esperado := (
-            cA => '1', cK => '1', cJ => '1', zJ = '1', zMult => '1', zMultMatricial ='0', zRegSaida = '0',
+            cA => '1', cK => '1', cJ => '1', zJ => '1', zMult => '1', zMultMatricial => '0', zRegSaida => '0',
             others => '0');
 
         passo_e_verifica(
@@ -515,7 +516,7 @@ begin
 
         --em S13 -> S8
         cmd_esperado := (
-            cA => '1', cB => '1', cJ => '1', zJ = '1', zMultMatricial ='0', zRegSaida = '0',
+            cA => '1', cB => '1', cJ => '1', zJ => '1', zMultMatricial => '0', zRegSaida => '0',
             others => '0');
 
         passo_e_verifica(
