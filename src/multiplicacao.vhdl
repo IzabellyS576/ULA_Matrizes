@@ -59,7 +59,7 @@ begin
       clk    => clk,
       rst    => '0',
       enable => comandos.cAc,
-      d      => saida_mux,
+      d      => saida_mux2,
       q      => ac
     );
 
