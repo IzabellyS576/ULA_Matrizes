@@ -61,7 +61,6 @@ begin
 
     --! Imprime mensagem de fim de teste
      report "Simulação concluída." severity note;
-     std.env.stop;
     wait;
 end process;
 
