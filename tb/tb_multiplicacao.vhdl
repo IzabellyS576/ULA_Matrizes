@@ -116,7 +116,7 @@ begin
     testing((1, 2, 3), (0, 1, 0), 2);
     testing((1, 2, 3), (0, 0, 1), 3);
     assert false report "EOT multiplicacao" severity note;
-    wait;
+    --wait;
   end process;
 
 end sim;
