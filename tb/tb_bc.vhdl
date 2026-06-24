@@ -1,7 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use std.env.all;
 use work.ula_pack.all;
 
 entity tb_bc is
@@ -41,7 +40,7 @@ begin
     
     clk_process : process
     begin
-        while true loop
+        while not sim_done loop
             clk <= '0';
             wait for CLK_PERIOD / 2;
             clk <= '1';
@@ -585,6 +584,7 @@ begin
 
         -- Finaliza a simulação
         report "Simulação do controle concluída com sucesso!";
+        sim_done <= true;
         wait;
     end process;
 
