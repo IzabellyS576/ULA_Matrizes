@@ -2,6 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.ula_pack.all;
+use std.env.all;
 
 entity tb_multiplicacao is
 end entity tb_multiplicacao;
@@ -66,6 +67,8 @@ begin
       expected : in integer
     ) is
     begin
+      in_a         <= (others => '0');
+      in_b         <= (others => '0'); -- fazendo isso para garantir que não tenham valores antigos na entrada
       comandos.cAc <= '1';
       comandos.zAc <= '0';
 
@@ -114,7 +117,8 @@ begin
     testing((1, 2, 3), (0, 1, 0), 2);
     testing((1, 2, 3), (0, 0, 1), 3);
     assert false report "EOT multiplicacao" severity note;
-    wait;
+    std.env.stop;
+    --wait;
   end process;
 
 end sim;
