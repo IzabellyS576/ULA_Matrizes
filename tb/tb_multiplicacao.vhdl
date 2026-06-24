@@ -19,7 +19,29 @@ architecture sim of tb_multiplicacao is
   signal output_value : signed(ula_length(W, N) - 1 downto 0);
   signal comandos     : comandos_t := (
   cAc => '0',
-  zAc => '1'
+  zAc => '1',
+
+  cEnd => '0',
+  zEnd => '0',
+
+  cI => '0',
+  zI => '0',
+
+  cJ => '0',
+  zJ => '0',
+
+  cW => '0',
+  zW => '0',
+
+  zMultMatricial => '0',
+
+  cA => '0',
+  cB => '0',
+  cK => '0',
+
+  zMult     => '0',
+  cOp       => '0',
+  zRegSaida => '0'
   );
   constant period : time := 20 ns;
 
