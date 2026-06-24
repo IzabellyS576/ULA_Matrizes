@@ -14,11 +14,11 @@ architecture sim of tb_multiplicacao is
   constant N : positive  := 8;
   signal clk : std_logic := '0';
 
-  signal input_a  : signed(W - 1 downto 0);
-  signal input_b  : signed(W - 1 downto 0);
-  signal multi    : signed(ula_length(W, N) - 1 downto 0);
-  signal comandos : comandos_t;
-  constant period : time := 20 ns;
+  signal in_a         : signed(W - 1 downto 0);
+  signal in_b         : signed(W - 1 downto 0);
+  signal output_value : signed(ula_length(W, N) - 1 downto 0);
+  signal comandos     : comandos_t;
+  constant period     : time := 20 ns;
 
 begin
 
@@ -28,10 +28,10 @@ begin
     port map
     (
       clk      => clk,
-      input_a  => input_a,
-      input_b  => input_b,
+      input_a  => in_a,
+      input_b  => in_b,
       comandos => comandos,
-      multi    => multi
+      multi    => output_value
     );
 
   st : process
@@ -41,8 +41,6 @@ begin
       expected : in integer
     ) is
     begin
-      assert false report "BOT" severity note;
-
       comandos.cAc <= '1';
       comandos.zAc <= '0';
 
@@ -52,20 +50,44 @@ begin
       wait until rising_edge(clk);
 
       for i in a'range loop
-        input_a <= to_signed(a(i), W);
-        input_b <= to_signed(b(i), W);
+        in_a <= to_signed(a(i), W);
+        in_b <= to_signed(b(i), W);
 
-        wait for rising_edge(clk);
+        wait until rising_edge(clk);
 
       end loop;
 
-      assert (to_integer(multi) = expected)
-      report "FALHA: obtido=" & integer'image(to_integer(multi)) &
-        ", esperado=" & integer.image(expected)
+      assert (to_integer(output_value) = expected)
+      report "FALHA: obtido=" & integer'image(to_integer(output_value)) &
+        ", esperado=" & integer'image(expected)
         severity error;
 
-      assert false report "EOT" severity note;
-      wait;
-    end process;
+    end procedure;
 
-  end architecture sim;
+  begin
+    assert false report "BOT" severity note;
+    testing((1, 2, 3), (4, 5, 6), 32);
+
+    testing((0, 0, 0), (1, 2, 3), 0);
+    testing((1, 0, 0), (7, 8, 9), 7);
+    testing((0, 1, 0), (7, 8, 9), 8);
+    testing((0, 0, 1), (7, 8, 9), 9);
+
+    testing((-1, 2, 3), (4, 5, 6), 24);
+    testing((-1, -2, -3), (4, 5, 6), -32);
+    testing((-1, -2, -3), (-4, -5, -6), 32);
+    testing((1, -2, 3), (-4, 5, -6), -32);
+
+    testing((2, -1, 4), (1, 2, 0), 0);
+
+    testing((127, 127, 127), (1, 1, 1), 381);
+    testing((-128, -128, -128), (1, 1, 1), -384);
+
+    testing((1, 2, 3), (1, 0, 0), 1);
+    testing((1, 2, 3), (0, 1, 0), 2);
+    testing((1, 2, 3), (0, 0, 1), 3);
+    assert false report "EOT" severity note;
+    wait;
+  end process;
+
+end sim;

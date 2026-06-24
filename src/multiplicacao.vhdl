@@ -8,7 +8,7 @@ use work.ula_pack.all;
 
 entity multiplicacao is
   generic (
-    W : positive := 8 -- número de bits das entradas
+    W : positive := 8; -- número de bits das entradas
     N : positive := 8 -- dimensão da matriz
   );
   port (
@@ -18,20 +18,20 @@ entity multiplicacao is
 
     comandos : in comandos_t;
 
-    multi : out signed(ula_length(W, N) - 1 downto 0);
+    multi : out signed(ula_length(W, N) - 1 downto 0)
 
   );
 end multiplicacao;
 architecture arch of multiplicacao is
   constant tamanho_saida : positive := ula_length(W, N);
 
-  signal multi_elementos                              : signed(2W - 1 downto 0);
+  signal multi_elementos                              : signed(2 * W - 1 downto 0);
   signal saida_mux                                    : std_logic_vector(tamanho_saida - 1 downto 0);
   signal multi_elementos2, saida_soma, saida_mux2, ac : signed(tamanho_saida - 1 downto 0);
 
 begin
 
-  multi_elementos  <= resize(input_a, 2W) * resize(input_b, 2W); -- multiplicação dos dois números de entrada
+  multi_elementos  <= resize(input_a, 2 * W) * resize(input_b, 2 * W); -- multiplicação dos dois números de entrada
   multi_elementos2 <= resize(multi_elementos, tamanho_saida); -- resize da multiplicação para o tamanho da saída
 
   saida_soma <= multi_elementos2 + ac; -- soma da multiplicação com o acumulador
