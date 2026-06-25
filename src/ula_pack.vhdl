@@ -5,8 +5,8 @@ use ieee.math_real.all;
 
 package ula_pack is
     type datapath_configuration_t is record
-        bits_per_element   : positive := 8;
-        lines_per_mem      : positive := 64;
+        bits_per_element   : positive;
+        lines_per_mem      : positive
     end record;
 
     -- Declaração de tipo comandos_t.

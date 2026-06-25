@@ -290,7 +290,7 @@ begin
     (
       clk => clk,
       reset => rst,
-      escrever  => 1, --sem comando direto, fixei em 1 por enquanto
+      escrever  => '1', --sem comando direto, fixei em 1 por enquanto
       end_i     => mux_reg_saida_i_out,
       end_j     => mux_reg_saida_J_out,
       d_escrito => mux_op_code_out,
