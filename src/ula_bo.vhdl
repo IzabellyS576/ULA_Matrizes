@@ -24,17 +24,17 @@ entity ula_bo is
     op_code   : in std_logic_vector(2 downto 0);
 
     address_end : out std_logic_vector(ceil_log2(CFG.lines_per_mem) - 1 downto 0); --log2 do numero de linhas da memoria [tamanho da variável end]
-    elementoC   : out signed(ula_length(bits_per_value => CFG.bits_per_element, matrix_size => CFG.lines_per_mem) - 1 downto 0);
+    elementoC   : out signed(ula_length(bits_per_value => CFG.bits_per_element, matrix_size => get_matrix_order(CFG.lines_per_mem)) - 1 downto 0);
     pronto      : out std_logic
   );
 end ula_bo;
 
 architecture arch of ula_bo is
 
-
+--CONSTANTES RECORRENTES
   constant matrix_order          : positive := get_matrix_order(CFG.lines_per_mem);
   constant address_matrix_length : positive := ceil_log2(matrix_order); 
-  constant ula_len               : positive := ula_length(bits_per_value => CFG.bits_per_element, matrix_size => CFG.lines_per_mem);
+  constant ula_len               : positive := ula_length(bits_per_value => CFG.bits_per_element, matrix_size => matrix_order);
 
   signal address_i : std_logic_vector(address_matrix_length - 1 downto 0);
   signal address_J : std_logic_vector(address_matrix_length - 1 downto 0);
@@ -45,7 +45,7 @@ architecture arch of ula_bo is
   signal mux_reg_saida_i_out : std_logic_vector(address_matrix_length - 1 downto 0);
   signal mux_reg_saida_J_out : std_logic_vector(address_matrix_length - 1 downto 0);
 
-  signal mux_op_code_out : signed(ula_length(bits_per_value => CFG.bits_per_element, matrix_size => CFG.lines_per_mem) - 1 downto 0);
+  signal mux_op_code_out : signed(ula_len - 1 downto 0);
   signal zero_ula_len    : signed(ula_len - 1 downto 0) := (others => '0');
 
   signal reg_A_out       : signed(CFG.bits_per_element - 1 downto 0);
@@ -54,7 +54,7 @@ architecture arch of ula_bo is
   signal reg_op_code_out : unsigned(2 downto 0);
   signal banco_A_out     : signed(CFG.bits_per_element - 1 downto 0);
   signal banco_B_out     : signed(CFG.bits_per_element - 1 downto 0);
-  signal banco_C_out     : signed(ula_length(bits_per_value => CFG.bits_per_element, matrix_size => matrix_order) - 1 downto 0);
+  signal banco_C_out     : signed(ula_len - 1 downto 0);
 
   --signals das operações
   signal soma_out            : signed(CFG.bits_per_element downto 0); --N+1 bits de saída
@@ -121,7 +121,7 @@ begin
     port map
     (
       a     => unsigned(address_i),
-      b     => to_unsigned(matrix_order, address_matrix_length+1), --possivel erro lógico (representacao binaria)
+      b     => to_unsigned(matrix_order, address_matrix_length),
       menor => status.i_menor
     );
   COMP_J : entity work.comparator(behavior)
@@ -129,7 +129,7 @@ begin
     port map
     (
       a     => unsigned(address_J),
-      b     => to_unsigned(matrix_order, address_matrix_length+1), --possivel erro lógico (representacao binaria)
+      b     => to_unsigned(matrix_order, address_matrix_length),
       menor => status.j_menor
     );
   COMP_W : entity work.comparator(behavior)
@@ -137,7 +137,7 @@ begin
     port map
     (
       a     => unsigned(address_W),
-      b     => to_unsigned(matrix_order, address_matrix_length+1), --possivel erro lógico (representacao binaria)
+      b     => to_unsigned(matrix_order, address_matrix_length),
       menor => status.w_menor
     );
   --=============== MUXES ===============-- 

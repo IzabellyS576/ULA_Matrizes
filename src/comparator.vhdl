@@ -13,5 +13,5 @@ end entity;
 
 architecture behavior of comparator is
 begin
-    menor <= '1' when a < b else '0';
+    menor <= '1' when a <= b else '0';
 end architecture behavior;
