@@ -8,7 +8,7 @@ end entity;
 
 architecture sim of tb_bc is
 
-    constant CLK_PERIOD : time := 20 ns;
+    constant CLK_PERIOD : time := 10 ns;
 
     signal clk       : std_logic := '0';
     signal rst       : std_logic := '0';
@@ -60,18 +60,6 @@ begin
             pronto => pronto,
             comandos => comandos  
         );
-
-        debug_process : process(clk)
-begin
-    if rising_edge(clk) then
-        report "--- CLOCK TOP ---" & 
-               " | i_menor=" & std_logic'image(status.i_menor) &
-               " | j_menor=" & std_logic'image(status.j_menor) &
-               " | ler=" & std_logic'image(ler) &
-               " | escrever=" & std_logic'image(escrever);
-               -- Se você tiver acesso ao sinal interno de estado, pode printar aqui também!
-    end if;
-end process;
 
     
     clk_process : process
@@ -242,7 +230,7 @@ end process;
         cmd_esperado := (others => '0');
 
         passo_e_verifica(
-            st_i_menor => '1', st_j_menor => '0', st_w_menor => '0', op => "000",
+            st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "000",
             pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S2-S3 - TESTE GERAL"
         );
@@ -251,7 +239,7 @@ end process;
         cmd_esperado := (others => '0');
 
         passo_e_verifica(
-            st_i_menor => '0', st_j_menor => '1', st_w_menor => '0', op => "000",
+            st_i_menor => '1', st_j_menor => '0', st_w_menor => '0', op => "000",
             pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S3-S4 - TESTE GERAL"
         );
@@ -263,7 +251,7 @@ end process;
         );
 
         passo_e_verifica(
-            st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "000",
+            st_i_menor => '0', st_j_menor => '1', st_w_menor => '0', op => "000",
             pronto_exp => '0', ler_exp => '1', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S4-S3 - TESTE GERAL"
         );
