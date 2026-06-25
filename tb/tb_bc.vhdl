@@ -8,7 +8,7 @@ end entity;
 
 architecture sim of tb_bc is
 
-    constant CLK_PERIOD : time := 10 ns;
+    constant CLK_PERIOD : time := 20 ns;
 
     signal clk       : std_logic := '0';
     signal rst       : std_logic := '0';
