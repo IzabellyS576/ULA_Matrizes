@@ -6,7 +6,7 @@ use work.ula_pack.all;
 entity ula is
 	generic(
         W : positive := 8; -- 'tamanho' em bits das entradas das operações (elementoA, elementoB e escalar)
-        N : positive := 3; -- ordem das matrizes sendo operadas
+        N : positive := 3 -- ordem das matrizes sendo operadas
 	);
 	port(
         clk: in  std_logic;
@@ -55,8 +55,7 @@ begin
             escalar => escalar,
             op_code => op_code,
             address_end => endr,
-            elementoC => elem_c,
-            pronto => '0'
+            elementoC => elem_c
             );
 
     MEM_A: entity work.memoria(arch)
