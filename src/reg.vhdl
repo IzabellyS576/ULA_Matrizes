@@ -13,7 +13,7 @@ entity registrador is
         entrada : in std_logic_vector(largura-1 downto 0);
         saida : out std_logic_vector(largura-1 downto 0)
     );
-end registrador
+end registrador;
 
 architecture rtl_reg of registrador is
 begin

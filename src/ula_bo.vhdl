@@ -13,6 +13,7 @@ entity BO is
 
   port (
     clk : in std_logic;
+    rst : in std_logic;
 
     comandos : in comandos_t;
     status   : out status_t;
@@ -30,8 +31,9 @@ end BO;
 
 architecture arch of BO is
 
+
   constant matrix_order          : positive := get_matrix_order(CFG.lines_per_mem);
-  constant address_matrix_length : positive := ceil_log2(matrix_order);
+  constant address_matrix_length : positive := ceil_log2(matrix_order); 
   constant ula_len               : positive := ula_length(bits_per_value => CFG.bits_per_element, matrix_size => CFG.lines_per_mem);
 
   signal address_i : std_logic_vector(address_matrix_length - 1 downto 0);
@@ -50,15 +52,15 @@ architecture arch of BO is
   signal reg_B_out       : signed(CFG.bits_per_element - 1 downto 0);
   signal reg_K_out       : signed(CFG.bits_per_element - 1 downto 0);
   signal reg_op_code_out : unsigned(2 downto 0);
-  signal banco_A_out     : signed(bits_per_element - 1 downto 0);
-  signal banco_B_out     : signed(bits_per_element - 1 downto 0);
-  signal banco_C_out     : signed(ula_length(bits_per_value => CFG.bits_per_element, matrix_size => CFG.matrix_order) - 1 downto 0);
+  signal banco_A_out     : signed(CFG.bits_per_element - 1 downto 0);
+  signal banco_B_out     : signed(CFG.bits_per_element - 1 downto 0);
+  signal banco_C_out     : signed(ula_length(bits_per_value => CFG.bits_per_element, matrix_size => matrix_order) - 1 downto 0);
 
   --signals das operações
-  signal soma_out            : signed(bits_per_element downto 0); --N+1 bits de saída
+  signal soma_out            : signed(CFG.bits_per_element downto 0); --N+1 bits de saída
   signal soma_out_reajustado : signed(ula_len - 1 downto 0);
 
-  signal subtracao_out            : signed(bits_per_element downto 0); --N+1 bits de saída
+  signal subtracao_out            : signed(CFG.bits_per_element downto 0); --N+1 bits de saída
   signal subtracao_out_reajustado : signed(ula_len - 1 downto 0);
 
   signal mux_mult_out        : std_logic_vector(CFG.bits_per_element - 1 downto 0);
@@ -119,7 +121,7 @@ begin
     port map
     (
       a     => unsigned(address_i),
-      b     => to_unsigned(matrix_order, address_matrix_length),
+      b     => to_unsigned(matrix_order, address_matrix_length+1), --possivel erro lógico (representacao binaria)
       menor => status.i_menor
     );
   COMP_J : entity work.comparator(behavior)
@@ -127,7 +129,7 @@ begin
     port map
     (
       a     => unsigned(address_J),
-      b     => to_unsigned(matrix_order, address_matrix_length),
+      b     => to_unsigned(matrix_order, address_matrix_length+1), --possivel erro lógico (representacao binaria)
       menor => status.j_menor
     );
   COMP_W : entity work.comparator(behavior)
@@ -135,12 +137,12 @@ begin
     port map
     (
       a     => unsigned(address_W),
-      b     => to_unsigned(matrix_order, address_matrix_length),
+      b     => to_unsigned(matrix_order, address_matrix_length+1), --possivel erro lógico (representacao binaria)
       menor => status.w_menor
     );
   --=============== MUXES ===============-- 
 
-  MUX_MULTMATRICIAL_A : entity mux_2to1(behavior)
+  MUX_MULTMATRICIAL_A : entity work.mux_2to1(rtl)
     generic map(N => address_matrix_length)
     port map
     (
@@ -149,7 +151,7 @@ begin
       in_1 => address_W,
       y    => mux_matricial_A_out
     );
-  MUX_MULTMATRICIAL_B : entity mux_2to1(behavior)
+  MUX_MULTMATRICIAL_B : entity work.mux_2to1(rtl)
     generic map(N => address_matrix_length)
     port map
     (
@@ -158,7 +160,7 @@ begin
       in_1 => address_W,
       y    => mux_matricial_B_out
     );
-  MUX_REG_SAIDA_I : entity mux_2to1(behavior)
+  MUX_REG_SAIDA_I : entity work.mux_2to1(rtl)
     generic map(N => address_matrix_length)
     port map
     (
@@ -167,7 +169,7 @@ begin
       in_1 => address_J,
       y    => mux_reg_saida_i_out
     );
-  MUX_REG_SAIDA_J : entity mux_2to1(behavior)
+  MUX_REG_SAIDA_J : entity work.mux_2to1(rtl)
     generic map(N => address_matrix_length)
     port map
     (
@@ -176,22 +178,23 @@ begin
       in_1 => address_i,
       y    => mux_reg_saida_J_out
     );
-  MUX_OPCODE : entity mux_8to1(behavior)
+  MUX_OPCODE : entity work.mux_8to1(rtl)
     generic map(N => ula_len)
     port map
     (
       sel  => std_logic_vector(reg_op_code_out),
       in_0 => soma_out_reajustado,
       in_1 => subtracao_out_reajustado,
-      --in_2 => ,
+      in_2 => resize(reg_A_out, ula_len), --não existe módulo específico para transposição
       in_3 => mult_escalar_out_reajustado,
       in_4 => convolucao_out_reajustado,
       in_5 => mult_matricial_out,
       in_6 => zero_ula_len,
       in_7 => zero_ula_len,
-      y    => mux_op_code_out);
+      y    => mux_op_code_out
+    );
 
-  MUX_MULT : entity mux_2to1(behavior)
+  MUX_MULT : entity work.mux_2to1(rtl)
     generic map(N => CFG.bits_per_element)
     port map
     (
@@ -250,8 +253,8 @@ begin
     port map
     (
       clk => clk,
-      --reset => ???,
-      --escrever  => ???,
+      reset => rst,
+      escrever  => comandos.cA,
       end_i     => address_i,
       end_j     => mux_matricial_A_out,
       d_escrito => elementoA,
@@ -268,10 +271,10 @@ begin
     port map
     (
       clk => clk,
-      --reset => ???,
-      --escrever  => ???,
+      reset => rst,
+      escrever  => comandos.cB,
       end_i     => mux_matricial_B_out,
-      end_j     => address_j,
+      end_j     => address_J,
       d_escrito => elementoB,
       d_lido    => banco_B_out
     );
@@ -286,8 +289,8 @@ begin
     port map
     (
       clk => clk,
-      --reset => ???,
-      --escrever  => ???,
+      reset => rst,
+      escrever  => 1, --sem comando direto, fixei em 1 por enquanto
       end_i     => mux_reg_saida_i_out,
       end_j     => mux_reg_saida_J_out,
       d_escrito => mux_op_code_out,
@@ -348,7 +351,7 @@ begin
     port map
     (
       input_a => reg_A_out,
-      input_b => mux_mult_out_signed,
+      input_k => mux_mult_out_signed,
       product => mult_escalar_out
     );
 
@@ -358,7 +361,7 @@ begin
 
   MULTIPLICACAO_MATRICIAL : entity work.multiplicacao(arch)
     generic map(
-      W => CFG.bits_per_element
+      W => CFG.bits_per_element,
       N => matrix_order
     )
     port map
@@ -371,3 +374,4 @@ begin
     );
 
   -----------------------------------------------
+end architecture arch;
