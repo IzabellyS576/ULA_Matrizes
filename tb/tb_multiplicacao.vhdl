@@ -10,71 +10,127 @@ architecture sim of tb_multiplicacao is
 
   type int_array is array (natural range <>) of integer;
 
-  constant A_tests : int_array := (4, 0, 2, -2, -2, 5, -5, 3);
-  constant B_tests : int_array := (2, 1, 3, 3, -3, 4, -7, 2);
-  constant E_tests : int_array := (8, 8, 14, 8, 14, 34, 69, 75);
-  constant W       : positive  := 8;
-  constant N       : positive  := 8;
-  signal clk       : std_logic := '0';
-  signal rst       : std_logic := '1';
+  constant W : positive  := 8;
+  constant N : positive  := 8;
+  signal clk : std_logic := '0';
 
-  signal input_a  : signed(W - 1 downto 0);
-  signal input_b  : signed(W - 1 downto 0);
-  signal multi    : signed(ula_length(W, N) - 1 downto 0);
-  signal comandos : comandos_t;
-  constant period : time := 20 ns;
+  signal in_a         : signed(W - 1 downto 0) := (others => '0');
+  signal in_b         : signed(W - 1 downto 0) := (others => '0');
+  signal output_value : signed(ula_length(W, N) - 1 downto 0);
+  signal comandos     : comandos_t := (
+  cAc => '0',
+  zAc => '1',
+
+  cEnd => '0',
+  zEnd => '0',
+
+  cI => '0',
+  zI => '0',
+
+  cJ => '0',
+  zJ => '0',
+
+  cW => '0',
+  zW => '0',
+
+  zMultMatricial => '0',
+
+  cA => '0',
+  cB => '0',
+  cK => '0',
+
+  zMult     => '0',
+  cOp       => '0',
+  zRegSaida => '0'
+  );
+  constant period : time    := 20 ns;
+  signal finished : boolean := false; --para o clock generator quando o teste terminar
 
 begin
 
-  clk <= not clk after period/2;
-  DUT : entity work.multiplicacao
+  --clk <= not clk after period/2;
+
+  clock_gen : process --clock generator respeitando o período definido
+  begin
+    while not finished loop
+      clk <= '0';
+      wait for period/2;
+      clk <= '1';
+      wait for period/2;
+    end loop;
+    wait;
+  end process;
+
+  DUT : entity work.multiplicacao(arch)
     generic map(W => W, N => N)
     port map
     (
       clk      => clk,
-      rst      => rst,
-      input_a  => input_a,
-      input_b  => input_b,
+      input_a  => in_a,
+      input_b  => in_b,
       comandos => comandos,
-      multi    => multi
+      multi    => output_value
     );
 
   st : process
-    -- procedure testing(
-    --   a        : in integer; --vetor como integer assim dá?
-    --   k        : in integer;
-    --   expected : in integer
-    -- ) is
-  begin
-    assert false report "BOT" severity note;
+    procedure testing(
+      a        : in int_array;
+      b        : in int_array;
+      expected : in integer
+    ) is
+    begin
+      in_a         <= (others => '0');
+      in_b         <= (others => '0'); -- fazendo isso para garantir que não tenham valores antigos na entrada
+      comandos.cAc <= '1';
+      comandos.zAc <= '0';
 
-    rst <= '1';
-    wait for rising_edge(clk);
-    rst <= '0';
-    wait for rising_edge(clk);
+      wait until rising_edge(clk);
 
-    comandos.zAc <= '0';
-    comandos.cAc <= '1';
+      comandos.zAc <= '1';
+      wait until rising_edge(clk);
 
-    wait until rising_edge(clk);
+      for i in a'range loop
+        in_a <= to_signed(a(i), W);
+        in_b <= to_signed(b(i), W);
 
-    comandos.zAc <= '1';
-    wait until rising_edge(clk);
-    for i in A_tests'range loop
-      input_a <= to_signed(A_tests(i), W);
-      input_b <= to_signed(B_tests(i), W);
+        wait until rising_edge(clk);
 
-      wait for rising_edge(clk);
+      end loop;
 
-      assert (to_integer(multi) = E_tests(i))
-      report "FALHA: obtido=" & integer'image(to_integer(multi)) &
-        ", esperado=" & integer'image(E_tests(i))
+      wait until rising_edge(clk);
+
+      assert (to_integer(output_value) = expected)
+      report "FALHA: obtido=" & integer'image(to_integer(output_value)) &
+        ", esperado=" & integer'image(expected)
         severity error;
 
-    end loop;
+    end procedure;
 
-    assert false report "EOT" severity note;
+  begin
+    assert false report "BOT multiplicacao" severity note;
+    testing((1, 2, 3), (4, 5, 6), 32);
+
+    testing((0, 0, 0), (1, 2, 3), 0);
+    testing((1, 0, 0), (7, 8, 9), 7);
+    testing((0, 1, 0), (7, 8, 9), 8);
+    testing((0, 0, 1), (7, 8, 9), 9);
+
+    testing((-1, 2, 3), (4, 5, 6), 24);
+    testing((-1, -2, -3), (4, 5, 6), -32);
+    testing((-1, -2, -3), (-4, -5, -6), 32);
+    testing((1, -2, 3), (-4, 5, -6), -32);
+
+    testing((2, -1, 4), (1, 2, 0), 0);
+
+    testing((127, 127, 127), (1, 1, 1), 381);
+    testing((-128, -128, -128), (1, 1, 1), -384);
+
+    testing((1, 2, 3), (1, 0, 0), 1);
+    testing((1, 2, 3), (0, 1, 0), 2);
+    testing((1, 2, 3), (0, 0, 1), 3);
+    assert false report "EOT multiplicacao" severity note;
+    finished <= true; --parar o clock generator
     wait;
   end process;
 
-end architecture sim;
+end sim;

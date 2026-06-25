@@ -39,12 +39,22 @@ jobs:
           ghdl -a src/convolucao.vhdl
           ghdl -a tb/tb_convolucao.vhdl
 
+          ghdl -a src/mux_2to1.vhdl
+          ghdl -a src/reg_signed.vhdl
+          ghdl -a src/multiplicacao.vhdl
+          ghdl -a tb/tb_multiplicacao.vhdl
+
+          ghdl -a src/bc.vhdl
+          ghdl -a tb/tb_bc.vhdl
+
       - name: Elaborar
         run: |
          ghdl -e tb_mult_escalar
          ghdl -e tb_soma
          ghdl -e tb_subtracao
          ghdl -e tb_convolucao
+         ghdl -e tb_multiplicacao
+         ghdl -e tb_bc
 
       - name: Simular
         run: |
@@ -52,6 +62,8 @@ jobs:
          ghdl -r tb_soma --vcd=waveform.vcd
          ghdl -r tb_subtracao --vcd=waveform.vcd
          ghdl -r tb_convolucao --vcd=waveform.vcd
+         ghdl -r tb_multiplicacao --vcd=waveform.vcd
+         ghdl -r tb_bc --vcd=waveform.vcd
 
       - name: Salvar waveform como artefato
         uses: actions/upload-artifact@v4
