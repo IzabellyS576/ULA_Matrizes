@@ -106,11 +106,6 @@ begin
 
         ) is
         begin
-            status.i_menor <= st_i_menor;
-            status.j_menor <= st_j_menor;
-            status.w_menor <= st_w_menor;
-            op_code <= op;
-
             wait until falling_edge(clk); 
 
             -- Valida os sinais esperados que estão fora do record
@@ -122,6 +117,11 @@ begin
             assert cmd_match(comandos, cmd_exp)
                 report "FALHA no record de comandos em: " & msg
                 severity error;
+
+            status.i_menor <= st_i_menor;
+            status.j_menor <= st_j_menor;
+            status.w_menor <= st_w_menor;
+            op_code <= op;
         end procedure;
 
         -- Variável auxiliar para preencher o record esperado com todos os sinais = 0 em cada estado
@@ -230,7 +230,7 @@ begin
         cmd_esperado := (others => '0');
 
         passo_e_verifica(
-            st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "000",
+            st_i_menor => '1', st_j_menor => '0', st_w_menor => '0', op => "000",
             pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S2-S3 - TESTE GERAL"
         );
@@ -239,7 +239,7 @@ begin
         cmd_esperado := (others => '0');
 
         passo_e_verifica(
-            st_i_menor => '1', st_j_menor => '0', st_w_menor => '0', op => "000",
+            st_i_menor => '0', st_j_menor => '1', st_w_menor => '0', op => "000",
             pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S3-S4 - TESTE GERAL"
         );
@@ -251,7 +251,7 @@ begin
         );
 
         passo_e_verifica(
-            st_i_menor => '0', st_j_menor => '1', st_w_menor => '0', op => "000",
+            st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "000",
             pronto_exp => '0', ler_exp => '1', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S4-S3 - TESTE GERAL"
         );
