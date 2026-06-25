@@ -74,9 +74,8 @@ begin
                     next_state <= S18;
                 end if;
 
-            WHEN S8 =>                                    --no S8, segundo a tabela de próximo estado, precisamos que w_menor seja 0 para os opcodes 000, 001, 
-                if status.j_menor = '1' then              -- 010, 011 e que seja 1 para os demais. Ainda preciamos conferir o j_menor, por isso temos tantas 
-                              -- estruturas condicionais.
+            WHEN S8 =>                                    
+                if status.j_menor = '1' then              
                         case op_code is
                             WHEN "000" =>
                                 next_state <= S9;
@@ -90,9 +89,6 @@ begin
                             WHEN "011" =>
                                 next_state <= S12;
                             
-                        
-                    
-                        
                             WHEN "100" =>
                                 next_state <= S13;
 
@@ -102,7 +98,6 @@ begin
                             WHEN OTHERS =>
                                 next_state <= S0; --erro: volta para estado inicial
                         end case;
-                    
                 else
                     next_state <= S17;
                 end if;
@@ -596,7 +591,7 @@ begin
 
                 comandos.zMultMatricial <= '0';
 
-                comandos.cA <= '0';
+                comandos.cA <= '1';
                 comandos.cB <= '1';
                 comandos.cK <= '0';
 
