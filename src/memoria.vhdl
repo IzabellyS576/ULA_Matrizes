@@ -1,6 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use work.ula_pack.all;
 
 entity memoria is
         generic (
@@ -17,7 +18,7 @@ entity memoria is
         dado_entrada : in  signed(CFG.bits_per_element-1 downto 0);
         dado_saida   : out signed(CFG.bits_per_element-1 downto 0)
     );
-end entity;
+end entity memoria;
 
 architecture arch of memoria is
     type mem_t is array (0 to CFG.lines_per_mem-1) of signed(CFG.bits_per_element-1 downto 0);
