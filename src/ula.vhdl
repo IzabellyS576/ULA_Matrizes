@@ -9,43 +9,97 @@ entity ula is
         N : positive := 3; -- ordem das matrizes sendo operadas
 	);
 	port(
-		inic     : in  std_logic;     -- iniciar
-        rst_a      : in  std_logic;     -- reset
-        clk        : in  std_logic;     -- clock
-
-        elementoA, elementoB : in signed(W-1 downto 0);
-        escalar : in std_logic_vector (W-1 downto 0);
-        op_code : in std_logic_vector (2 downto 0);
-        
-        elementoC : out signed(ula_length(bits_per_value => W, matrix_size => N)-1 downto 0); -- 'tamanho' dado pelo pior caso que um elemento da matriz pode assumir após a multiplicação matricial
-        endr : out std_logic_vector(5 downto 0); -- endereço
-        ler_mem   : out std_logic;     -- read
-        escr_mem : out std_logic;
-        pronto       : out std_logic      -- pronto
+        clk: in  std_logic;
+        rst: in  std_logic;
+        inic: in  std_logic;
+        escalar: in  signed(W-1 downto 0);
+        op_code: in  std_logic_vector(2 downto 0);
+        pronto: out std_logic
     );
 end entity ula;
 
 architecture structure of ula is
-	signal comandos : comandos_t;
+    signal comandos : comandos_t;
     signal status : status_t;
+    signal ler_mem : std_logic;
+    signal escr_mem : std_logic;
+    signal elem_a : signed(W-1 downto 0);
+    signal elem_b : signed(W-1 downto 0);
+    signal elem_c : signed(ula_length(bits_per_value => W, matrix_size => N)-1 downto 0);
+    signal endr : std_logic_vector(5 downto 0);
+
 begin
-    ULA_BC: entity work.ula_bc()
-    port map();
+    ULA_BC: entity work.bc(behavior) --COMENTÁRIO P REFATORAÇÃO: não seria melhor se o nome do arquivo do BC fosse ula_bc.vhdl?
+    port map(clk => clk,
+            rst => rst,
+            iniciar => inic,
+            status => status,
+            op_code => op_code,
+            ler => ler_mem,
+            escrever => escr_mem,
+            pronto => pronto,
+            comandos => comandos
+            );
 
-    ULA_BO: entity work.ula_bo()
-    generic map()
-    port map ();
+    ULA_BO: entity work.ula_bo(arch)
+    generic map(CFG => 
+                (bits_per_element => W, 
+                lines_per_mem => N*N)
+                )
+    port map (clk => clk,
+            rst => rst,
+            comandos => comandos,
+            status => status,
+            elementoA => elem_a,
+            elementoB => elem_b,
+            escalar => escalar,
+            op_code => op_code,
+            address_end => endr,
+            elementoC => elem_c,
+            pronto => '0'
+            );
 
-    MEM_A: entity work.nomedoarquivodamemoria()
-    generic map()
-    port map ();
+    MEM_A: entity work.memoria(arch)
+    generic map(CFG => 
+                (bits_per_element => W, 
+                lines_per_mem => N*N)
+                )
+    port map (
+            clk  => clk,
+            ler  => ler_mem,
+            escrever  => '0',
+            endereco => endr,
+            dado_entrada => (others => '0'),
+            dado_saida   => elem_a
 
-    MEM_B: entity work.nomedoarquivodamemoria()
-    generic map()
-    port map ();
+    );
 
-    MEM_C: entity work.nomedoarquivodamemoria()
-    generic map()
-    port map ();
+    MEM_B: entity work.memoria(arch)
+   generic map(CFG => 
+                (bits_per_element => W, 
+                lines_per_mem => N*N)
+                )
+    port map (
+            clk  => clk,
+            ler  => ler_mem,
+            escrever  => '0',
+            endereco => endr,
+            dado_entrada => (others => '0'),
+            dado_saida   => elem_a
+    );
+
+    MEM_C: entity work.memoria(arch)
+    generic map(CFG => 
+                (bits_per_element => W, 
+                lines_per_mem => N*N)
+                )
+    port map (
+            clk => clk,
+            ler => '0',
+            escrever => escr_mem,
+            endereco => endr,
+            dado_entrada => elem_c,
+            dado_saida   => open
+    );
     
 end architecture structure;
