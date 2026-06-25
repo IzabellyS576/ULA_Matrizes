@@ -11,7 +11,7 @@ entity mux_8to1 is
 	);
 end mux_8to1;
 
-architecture behavior of mux_8to1 is
+architecture rtl of mux_8to1 is
 begin
     
     y <= in_0 when (sel="000") else 
@@ -23,4 +23,4 @@ begin
          in_6 when (sel="110") else
          in_7;
     
-end architecture behavior;
+end architecture rtl;

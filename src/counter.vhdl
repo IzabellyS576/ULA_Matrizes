@@ -19,7 +19,7 @@ architecture behavior of counter is
 	signal adder_out: unsigned(N downto 0);
 
 begin
-    MUX_COUNTER: entity work.mux_2to1(behavior)
+    MUX_COUNTER: entity work.mux_2to1(rtl)
 	generic map (N => N)
 	port map(sel => sel_mux,
 			 in_0 => std_logic_vector(to_unsigned(0, N)),

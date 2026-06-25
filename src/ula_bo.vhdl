@@ -362,7 +362,7 @@ begin
   MULTIPLICACAO_MATRICIAL : entity work.multiplicacao(arch)
     generic map(
       W => CFG.bits_per_element,
-      N => matrix_order
+      N => CFG.lines_per_mem
     )
     port map
     (
