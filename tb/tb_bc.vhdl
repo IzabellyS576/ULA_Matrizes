@@ -61,6 +61,18 @@ begin
             comandos => comandos  
         );
 
+        debug_process : process(clk)
+begin
+    if rising_edge(clk) then
+        report "--- CLOCK TOP ---" & 
+               " | i_menor=" & std_logic'image(status.i_menor) &
+               " | j_menor=" & std_logic'image(status.j_menor) &
+               " | ler=" & std_logic'image(ler) &
+               " | escrever=" & std_logic'image(escrever);
+               -- Se você tiver acesso ao sinal interno de estado, pode printar aqui também!
+    end if;
+end process;
+
     
     clk_process : process
     begin
