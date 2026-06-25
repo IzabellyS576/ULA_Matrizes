@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 use work.ula_pack.all;
 use ieee.numeric_std.all;
 
-entity BO is
+entity ula_bo is
   generic (
     CFG : datapath_configuration_t := (
     bits_per_element => 8,
@@ -27,9 +27,9 @@ entity BO is
     elementoC   : out signed(ula_length(bits_per_value => CFG.bits_per_element, matrix_size => CFG.lines_per_mem) - 1 downto 0);
     pronto      : out std_logic
   );
-end BO;
+end ula_bo;
 
-architecture arch of BO is
+architecture arch of ula_bo is
 
 
   constant matrix_order          : positive := get_matrix_order(CFG.lines_per_mem);
