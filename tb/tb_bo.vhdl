@@ -132,6 +132,7 @@ begin
       begin
           --elementoA    <= (others => (others => (others => '0'))); -- fazendo isso para garantir que não tenham valores antigos na entrada
           --elementoB    <= (others => (others => (others => '0'))); -- fazendo isso para garantir que não tenham valores antigos na entrada
+          
           elementoA <= (others => '0'); 
           elementoB <= (others => '0'); 
           comandos.cOp <= '1';
@@ -265,6 +266,10 @@ begin
 
     begin
         assert false report "BOT datapath" severity note;
+        rst <= '1';
+        wait until rising_edge(clk);
+        rst <= '0';
+        wait until rising_edge(clk);
         testing(A1, B1, 0, 2, 2);
         testing(A1, B1, 1, 0, 2);
 
