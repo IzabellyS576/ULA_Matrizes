@@ -238,7 +238,7 @@ begin
 
             assert (to_integer(unsigned(address_end)) = expected_address) --FAZER CHECAGEM DO ENDEREÇO FINAL 
             --INCLUIR ADRESS NA INSTANCIACAO DA FUNCAO
-                report "FALHA: obtido=" & integer'image(to_integer(address_end)) &
+                report "FALHA: obtido=" & integer'image(to_integer(unsigned(address_end))) &
                 ", esperado=" & integer'image(expected_address) 
                 severity error;
           
