@@ -42,10 +42,10 @@ begin
     )
     port map
     (
-      sel     => comandos.zAc, -- sempre seleciona a entrada 0, que é a saída da multiplicação
+      sel  => comandos.zAc, -- sempre seleciona a entrada 0, que é a saída da multiplicação
       in_0 => (others => '0'),
       in_1 => std_logic_vector(saida_soma), -- entrada 1 do mux é zero
-      y       => saida_mux
+      y    => saida_mux
     );
 
   saida_mux2 <= signed(saida_mux); -- conversão da saída do mux para signed
