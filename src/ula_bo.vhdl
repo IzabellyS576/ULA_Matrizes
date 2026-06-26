@@ -55,6 +55,7 @@ architecture arch of ula_bo is
   signal banco_A_out     : signed(CFG.bits_per_element - 1 downto 0);
   signal banco_B_out     : signed(CFG.bits_per_element - 1 downto 0);
   signal banco_C_out     : signed(ula_len - 1 downto 0);
+  signal a_transposto    : signed(ula_len - 1 downto 0);
 
   --signals das operações
   signal soma_out            : signed(CFG.bits_per_element downto 0); --N+1 bits de saída
@@ -178,6 +179,9 @@ begin
       in_1 => address_i,
       y    => mux_reg_saida_J_out
     );
+
+  a_transposto <= resize(reg_A_out, ula_len);
+
   MUX_OPCODE : entity work.mux_8to1(rtl)
     generic map(N => ula_len)
     port map
@@ -185,7 +189,7 @@ begin
       sel  => std_logic_vector(reg_op_code_out),
       in_0 => soma_out_reajustado,
       in_1 => subtracao_out_reajustado,
-      in_2 => resize(reg_A_out, ula_len), --não existe módulo específico para transposição
+      in_2 => a_transposto, --não existe módulo específico para transposição
       in_3 => mult_escalar_out_reajustado,
       in_4 => convolucao_out_reajustado,
       in_5 => mult_matricial_out,
