@@ -88,7 +88,7 @@ begin
     );
 
     MEM_C: entity work.memoria(arch)
-    generic map(CFG => (
+    generic map CFG => (
 				bits_per_element => ula_length(bits_per_value => W, matrix_size => N, 
                 lines_per_mem => N*N
 			))
