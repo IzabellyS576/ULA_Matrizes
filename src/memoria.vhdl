@@ -36,8 +36,8 @@ begin
     generic map(N => 6)
     port map (
             sel  => comandos.zMem,
-            input_a  => endereco_dado, --dado para popular mem
-            input_b  => endereco,
+            in_0  => endereco_dado, --dado para popular mem
+            in_1  => endereco,
             y => s_endereco_escolhido
     );
 
@@ -45,8 +45,8 @@ begin
     generic map(N => 6)
     port map (
             sel  => comandos.zMem,
-            input_a  => ler_dado, --sinal ler do TB
-            input_b  => ler,
+            in_0  => ler_dado, --sinal ler do TB
+            in_1  => ler,
             y => s_ler
     );
 
@@ -54,8 +54,8 @@ begin
     generic map(N => 6)
     port map (
             sel  => comandos.zMem,
-            input_a  => escrever_dado, --sinal escrever do TB
-            input_b  => escrever,
+            in_0  => escrever_dado, --sinal escrever do TB
+            in_1  => escrever,
             y => s_escrever
     );
 
