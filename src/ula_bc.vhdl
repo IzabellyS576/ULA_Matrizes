@@ -12,6 +12,8 @@ entity ula_bc is
 
 		ler: out std_logic;
 		escrever: out std_logic;
+        esc_A_B: out std_logic;
+        ler_C: out std_logic;
         pronto: out std_logic;
 		comandos: out comandos_t
 	);
