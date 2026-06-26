@@ -227,7 +227,7 @@ begin
                 severity error;
           end loop;
 
-      end procedure;
+      end process;
 
     begin
         assert false report "BOT datapath" severity note;
