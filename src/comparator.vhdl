@@ -5,8 +5,8 @@ use ieee.numeric_std.all;
 entity comparator is
     generic (N : positive := 3); 
     port (
-        a      : in  unsigned(N-1 downto 0);
-        b      : in  unsigned(N-1 downto 0);
+        a      : in  unsigned(N downto 0);
+        b      : in  unsigned(N downto 0);
         menor  : out std_logic
     );
 end entity;
