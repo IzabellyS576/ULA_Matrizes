@@ -38,8 +38,8 @@ begin
             status => status,
             op_code => op_code,
             ler => s_ler_mem,
-            escr_A_B => s_escr_dado;
-            ler_C => s_ler_dado;
+            escr_A_B => s_escr_dado,
+            ler_C => s_ler_dado,
             escrever => s_escr_mem,
             pronto => pronto,
             comandos => comandos
