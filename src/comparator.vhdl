@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity comparator is
-    generic (N : positive := 3); 
+    generic (N : positive := 4); 
     port (
         a      : in  unsigned(N-1 downto 0);
         b      : in  unsigned(N-1 downto 0);
