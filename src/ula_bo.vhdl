@@ -32,7 +32,7 @@ architecture arch of ula_bo is
 
 --CONSTANTES RECORRENTES
   constant matrix_order          : positive := get_matrix_order(CFG.lines_per_mem);
-  constant address_matrix_length : positive := ceil_log2(matrix_order); 
+  constant address_matrix_length : positive := 4;
   constant ula_len               : positive := ula_length(bits_per_value => CFG.bits_per_element, matrix_size => matrix_order);
 
   signal address_i : std_logic_vector(address_matrix_length - 1 downto 0);
@@ -119,7 +119,7 @@ begin
     generic map(N => address_matrix_length)
     port map
     (
-      a     => unsigned(resize(address_i, 4)),
+      a     => unsigned(address_i),
       b     => to_unsigned(matrix_order, address_matrix_length),
       menor => status.i_menor
     );
@@ -127,7 +127,7 @@ begin
     generic map(N => address_matrix_length)
     port map
     (
-      a     => unsigned(resize(address_J, 4)),
+      a     => unsigned(address_J),
       b     => to_unsigned(matrix_order, address_matrix_length),
       menor => status.j_menor
     );
@@ -135,7 +135,7 @@ begin
     generic map(N => address_matrix_length)
     port map
     (
-      a     => unsigned(resize(address_W, 4)),
+      a     => unsigned(address_W),
       b     => to_unsigned(matrix_order, address_matrix_length),
       menor => status.w_menor
     );
