@@ -9,7 +9,7 @@ entity memoria is
             bits_per_element => 8,
             lines_per_mem => 64
         )
-    );
+    ); --oioioi
     port (
         clk          : in  std_logic;
         ler          : in  std_logic;
