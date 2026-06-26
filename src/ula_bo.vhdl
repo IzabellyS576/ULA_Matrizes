@@ -73,6 +73,8 @@ architecture arch of ula_bo is
 
   signal mult_matricial_out : signed(ula_len - 1 downto 0);
 
+  signal resize_reg_a_out_ula_len: signed(W-1 downto 0);
+
 begin
 
   --=============== CONTADORES ===============-- 
@@ -177,6 +179,8 @@ begin
       in_1 => address_i,
       y    => mux_reg_saida_J_out
     );
+
+  resize_reg_a_out_ula_len <= resize(reg_A_out, ula_len);
   MUX_OPCODE : entity work.mux_8to1(rtl)
     generic map(N => ula_len)
     port map
@@ -184,7 +188,7 @@ begin
       sel  => std_logic_vector(reg_op_code_out),
       in_0 => soma_out_reajustado,
       in_1 => subtracao_out_reajustado,
-      in_2 => resize(reg_A_out, ula_len), --não existe módulo específico para transposição
+      in_2 => resize_reg_a_out_ula_len, --não existe módulo específico para transposição
       in_3 => mult_escalar_out_reajustado,
       in_4 => convolucao_out_reajustado,
       in_5 => mult_matricial_out,
