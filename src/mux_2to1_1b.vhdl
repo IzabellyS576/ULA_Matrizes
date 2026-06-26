@@ -11,7 +11,7 @@ entity mux_2to1_1b is
   );
 end entity;
 
-architecture rtl of mux_2to1 is
+architecture rtl of mux_2to1_1b is
 
 begin
   y <= in_0 when sel = '0' else
