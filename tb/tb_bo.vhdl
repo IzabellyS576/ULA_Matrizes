@@ -75,8 +75,7 @@ begin
   end process;
 
   DUT : entity work.ula_bo(arch)
-    entity ula_bo is
-      generic (
+      generic map(
         CFG              => (
         bits_per_element => 8,
         lines_per_mem    => 64
@@ -125,8 +124,8 @@ begin
           -- comandos.zI <= '1';
           -- comandos.zJ <= '1';
 
-          for i in range'a(1) loop
-            for j in range'a(2) loop
+          for i in a'range(1) loop
+            for j in a'range(2) loop
               elementoA <= a(i,j);
               elementoB <= b(i,j);
 
@@ -188,7 +187,7 @@ begin
               comandos.cI <= '0';
               comandos.zMultMatricial <= '0';
               comandos.zRegSaida <= '0';
-            else then --multiplicacao matricial ADICIONAR
+            elsif op = 5 then --multiplicacao matricial ADICIONAR
               comandos.zMultMatricial <= '0';
               comandos.cA <= '1';
               comandos.cB <= '1';
@@ -207,6 +206,8 @@ begin
                   comandos.zAc <= '0';
                   comandos.cJ <= '1';
                   wait until rising_edge(clk);
+              end loop;
+            else --sem op
               
             end if;
             wait until rising_edge(clk);
@@ -230,7 +231,7 @@ begin
 
     begin
         assert false report "BOT datapath" severity note;
-        testing(A1, B1, 1, 5, 2)
+        testing(A1, B1, 1, 5, 2);
         
         assert false report "EOT datapath" severity note;
         finished <= true; --parar o clock generator
