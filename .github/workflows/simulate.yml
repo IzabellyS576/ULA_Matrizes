@@ -44,7 +44,7 @@ jobs:
           ghdl -a src/multiplicacao.vhdl
           ghdl -a tb/tb_multiplicacao.vhdl
 
-          ghdl -a src/ula.vhdl
+          
           
           ghdl -a src/bc.vhdl
           ghdl -a tb/tb_bc.vhdl
