@@ -50,7 +50,7 @@ begin
 
   saida_mux2 <= signed(saida_mux); -- conversão da saída do mux para signed
 
-  REGAC : entity work.signed_register(rtl)
+  REGAC : entity work.signed_register(behavior)
     generic map(
       N => tamanho_saida
     )
