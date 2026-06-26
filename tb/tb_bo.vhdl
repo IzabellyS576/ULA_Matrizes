@@ -261,6 +261,8 @@ begin
         assert false report "BOT datapath" severity note;
         testing(A1, B1, 0, 2, 2);
         testing(A1, B1, 1, 0, 2);
+
+        testing(A1, B1, 2, 1, 2);
         
         assert false report "EOT datapath" severity note;
         finished <= true; --parar o clock generator
