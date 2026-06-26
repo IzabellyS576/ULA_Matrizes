@@ -8,7 +8,17 @@ end entity tb;
 
 architecture sim of tb is
 
-  --type matrix_t is array (natural range <>, natural range <>) of signed(W-1 downto 0);
+  type matrix_t is array (natural range <>, natural range <>) of signed(W-1 downto 0);
+
+  constant A1 : matrix_t(0 to 1, 0 to 2) := (
+        (to_signed(1, W), to_signed(2, W), to_signed(3, W)),
+        (to_signed(4, W), to_signed(5, W), to_signed(6, W))
+    );
+
+    constant B1 : matrix_t(0 to 1, 0 to 2) := (
+        (to_signed(4, W), to_signed(5, W), to_signed(6, W)),
+        (to_signed(7, W), to_signed(8, W), to_signed(9, W))
+    );
 
   constant W : positive  := 8;
   constant N : positive  := 8;
@@ -86,14 +96,19 @@ begin
 
       st : process
         procedure testing(
-          a        : in integer;
-          b        : in integer;
-          expected : in integer
+          a        : in matrix_t;
+          b        : in matrix_t;
+          op : in integer;
+          expected : in integer;
+          expected_adress: in integer
+          
       ) is
       begin
-          elementoA    <= (others => '0'); -- fazendo isso para garantir que não tenham valores antigos na entrada
-          elementoB    <= (others => '0'); -- fazendo isso para garantir que não tenham valores antigos na entrada
+          elementoA    <= (others => (others => (others => '0'))); -- fazendo isso para garantir que não tenham valores antigos na entrada
+          elementoB    <= (others => (others => (others => '0'))); -- fazendo isso para garantir que não tenham valores antigos na entrada
           comandos.cOp <= '1';
+          comandos.zEnd <= '0';
+          comandos.cEnd <= '1';
           comandos.zMult <= '0';
 
           comandos.cA <= '1';
@@ -102,8 +117,7 @@ begin
           comandos.cI <= '1';
           comandos.cJ <= '1';
 
-          comandos.zI <= '0';
-          comandos.zJ <= '0';
+          
 
 
           -- wait until rising_edge(clk);
@@ -111,10 +125,18 @@ begin
           -- comandos.zI <= '1';
           -- comandos.zJ <= '1';
 
-          elementoA <= to_signed(a, W);
-          elementoB <= to_signed(b, W);
-          wait until rising_edge(clk);
-          for op in 0 to 5 loop
+          for i in range'a(1) loop
+            for j in range'a(2) loop
+              elementoA <= a(i,j);
+              elementoB <= b(i,j);
+
+              comandos.zI <= '0';
+              comandos.zJ <= '0';
+              comandos.zEnd <= '1';
+              wait until rising_edge(clk);
+            end loop;
+          end loop;
+          
             op_code <= std_logic_vector(to_unsigned(op, 3));
             
 
@@ -167,6 +189,24 @@ begin
               comandos.zMultMatricial <= '0';
               comandos.zRegSaida <= '0';
             else then --multiplicacao matricial ADICIONAR
+              comandos.zMultMatricial <= '0';
+              comandos.cA <= '1';
+              comandos.cB <= '1';
+              comandos.cK <= '0';
+              comandos.zMult <= '1';
+
+              comandos.zAc <= '0'; --zera ac no inicio da multiplicacao matricial
+              comandos.cAc <= '1';
+              wait until rising_edge(clk);
+              for i in a'range(1) loop
+                for j in a'range(2) loop
+                  comandos.cJ <= '0';
+                  comandos.zAc <= '1';
+                  wait until rising_edge(clk);
+                end loop;
+                  comandos.zAc <= '0';
+                  comandos.cJ <= '1';
+                  wait until rising_edge(clk);
               
             end if;
             wait until rising_edge(clk);
@@ -174,15 +214,15 @@ begin
             --sinais do s8 ADICIONAR
 
 
-            assert (to_integer(elementoC) = to_integer(expected))
+            assert (to_integer(elementoC) = expected)
                 report "FALHA: obtido=" & integer'image(to_integer(elementoC)) &
                 ", esperado=" & integer'image(expected)
                 severity error;
 
-            assert (to_integer(andress_end) = to_integer(expected_adress)) --FAZER CHECAGEM DO ENDEREÇO FINAL 
+            assert (to_integer(andress_end) = expected_adress) --FAZER CHECAGEM DO ENDEREÇO FINAL 
             --INCLUIR ADRESS NA INSTANCIACAO DA FUNCAO
                 report "FALHA: obtido=" & integer'image(to_integer(andress_end)) &
-                ", esperado=" & integer'image(expected_adress)
+                ", esperado=" & integer'image(expected_adress) &
                 severity error;
           end loop;
 
@@ -190,26 +230,8 @@ begin
 
     begin
         assert false report "BOT datapath" severity note;
-        testing((1, 2, 3), (4, 5, 6), 32); --FAZER CASOS DE TESTE!!!!!
-
-        testing((0, 0, 0), (1, 2, 3), 0);
-        testing((1, 0, 0), (7, 8, 9), 7);
-        testing((0, 1, 0), (7, 8, 9), 8);
-        testing((0, 0, 1), (7, 8, 9), 9);
-
-        testing((-1, 2, 3), (4, 5, 6), 24);
-        testing((-1, -2, -3), (4, 5, 6), -32);
-        testing((-1, -2, -3), (-4, -5, -6), 32);
-        testing((1, -2, 3), (-4, 5, -6), -32);
-
-        testing((2, -1, 4), (1, 2, 0), 0);
-
-        testing((127, 127, 127), (1, 1, 1), 381);
-        testing((-128, -128, -128), (1, 1, 1), -384);
-
-        testing((1, 2, 3), (1, 0, 0), 1);
-        testing((1, 2, 3), (0, 1, 0), 2);
-        testing((1, 2, 3), (0, 0, 1), 3);
+        testing(A1, B1, 1, 5, 2)
+        
         assert false report "EOT datapath" severity note;
         finished <= true; --parar o clock generator
         wait;
