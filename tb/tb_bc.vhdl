@@ -213,7 +213,7 @@ begin
         -- Mantemos iniciar em '0' para continuar em S0 e testamos as saídas
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "000",
-            pronto_exp => '1', ler_exp => '0', ler_C_exp => '1', escrever_exp => '0', escrever_exp => '0',
+            pronto_exp => '1', ler_exp => '0', ler_C_exp => '1', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S0-S1 - TESTE GERAL"
         );
 
