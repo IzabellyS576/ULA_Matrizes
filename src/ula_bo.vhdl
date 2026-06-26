@@ -210,39 +210,43 @@ begin
   mux_mult_out_signed <= signed(mux_mult_out); --conversão de std_logic_vector para signed
 
   --=============== REGISTRADORES ===============-- 
-  REG_A : entity work.signed_register(behavior)
+  REG_A : entity work.reg_signed(rtl)
     generic map(N => CFG.bits_per_element)
     port map
     (
       clk    => clk,
+      rst => rst,
       enable => comandos.cA,
       d      => banco_A_out,
       q      => reg_A_out
     );
-  REG_B : entity work.signed_register(behavior)
+  REG_B : entity work.reg_signed(rtl)
     generic map(N => CFG.bits_per_element)
     port map
     (
       clk    => clk,
+      rst => rst,
       enable => comandos.cB,
       d      => banco_B_out,
       q      => reg_B_out
     );
-  REG_K : entity work.signed_register(behavior)
+  REG_K : entity work.reg_signed(rtl)
     generic map(N => CFG.bits_per_element)
     port map
     (
       clk    => clk,
+      rst => rst,
       enable => comandos.cK,
       d      => escalar,
       q      => reg_K_out
     );
 
-  REG_OP : entity work.unsigned_register(behavior)
+  REG_OP : entity work.reg_signed(rtl)
     generic map(N => 3) --Fixo em 3
     port map
     (
       clk    => clk,
+      rst => rst,
       enable => comandos.cOp,
       d      => unsigned(op_code),
       q      => reg_op_code_out
