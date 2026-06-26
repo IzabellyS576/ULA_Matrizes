@@ -8,10 +8,17 @@ end tb_bo;
 
 architecture sim of tb_bo is
 
-  type matrix_t is array (natural range <>, natural range <>) of signed(W-1 downto 0);
-
   constant W : positive  := 8;
   constant N : positive  := 8;
+
+  signal CFG : datapath_configuration_t := (
+    bits_per_element => 8,
+    lines_per_mem    => 64
+    )
+
+  type matrix_t is array (natural range <>, natural range <>) of signed(W-1 downto 0);
+
+  
 
   constant A1 : matrix_t(0 to 1, 0 to 2) := (
         (to_signed(1, W), to_signed(2, W), to_signed(3, W)),
@@ -25,13 +32,14 @@ architecture sim of tb_bo is
 
   
   signal clk : std_logic := '0';
+  signal rst : std_logic := '0';
 
   signal elementoA   : signed(W - 1 downto 0)       := (others => '0');
   signal elementoB   : signed(W - 1 downto 0)       := (others => '0');
   signal escalar     : signed(W - 1 downto 0)       := (others => '0');
   signal op_code     : std_logic_vector(2 downto 0) := (others => '0');
   signal elementoC   : signed(ula_length(W, N) - 1 downto 0);
-  signal adress_end : std_logic_vector(ceil_log2(CFG.lines_per_mem) - 1 downto 0);
+  signal address_end : std_logic_vector(ceil_log2(CFG.lines_per_mem) - 1 downto 0);
   signal comandos    : comandos_t := (
   cAc => '0',
   zAc => '0',
@@ -105,7 +113,7 @@ begin
           b        : in matrix_t;
           op : in integer;
           expected : in integer;
-          expected_adress: in integer
+          expected_address: in integer
           
       ) is
       begin
@@ -228,10 +236,10 @@ begin
                 ", esperado=" & integer'image(expected)
                 severity error;
 
-            assert (to_integer(unsigned(andress_end)) = expected_adress) --FAZER CHECAGEM DO ENDEREÇO FINAL 
+            assert (to_integer(unsigned(address_end)) = expected_address) --FAZER CHECAGEM DO ENDEREÇO FINAL 
             --INCLUIR ADRESS NA INSTANCIACAO DA FUNCAO
-                report "FALHA: obtido=" & integer'image(to_integer(andress_end)) &
-                ", esperado=" & integer'image(expected_adress) 
+                report "FALHA: obtido=" & integer'image(to_integer(address_end)) &
+                ", esperado=" & integer'image(expected_address) 
                 severity error;
           
 
