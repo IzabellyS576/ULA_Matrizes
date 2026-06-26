@@ -143,7 +143,8 @@ begin
           
           comandos.cI <= '1';
           comandos.cJ <= '1';
-
+            comandos.zI <= '0';
+          comandos.zJ <= '0';
           
 
 
@@ -156,12 +157,16 @@ begin
             for j in a'range(2) loop
               elementoA <= a(i,j);
               elementoB <= b(i,j);
-
-              comandos.zI <= '0';
-              comandos.zJ <= '0';
+                
+            
+              
+              comandos.zJ <= '1';
               comandos.zEnd <= '1';
               wait until rising_edge(clk);
             end loop;
+            comandos.zJ <= '0';
+            comandos.zI <= '1';
+
           end loop;
           
             op_code <= std_logic_vector(to_unsigned(op, 3));
