@@ -14,7 +14,7 @@ architecture sim of tb_bo is
   signal CFG : datapath_configuration_t := (
     bits_per_element => 8,
     lines_per_mem    => 64
-    )
+    );
 
   type matrix_t is array (natural range <>, natural range <>) of signed(W-1 downto 0);
 
