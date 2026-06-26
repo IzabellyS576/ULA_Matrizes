@@ -28,7 +28,7 @@ architecture sim of tb_bo is
         (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W)),
         (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W)),
         (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W)),
-        (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W)),
+        (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W))
     );
 
     constant B1 : matrix_t(0 to 1, 0 to 2) := (
@@ -39,7 +39,7 @@ architecture sim of tb_bo is
         (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W)),
         (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W)),
         (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W)),
-        (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W)),
+        (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W))
     );
 
   
