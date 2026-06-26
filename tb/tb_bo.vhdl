@@ -76,7 +76,7 @@ architecture sim of tb_bo is
 
   zMult     => '0',
   cOp       => '1',
-  zRegSaida => '0'
+  zRegSaida => '0',
   );
   signal status: status_t;
   constant period : time    := 20 ns;

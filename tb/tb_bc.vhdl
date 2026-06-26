@@ -16,6 +16,8 @@ architecture sim of tb_bc is
     signal pronto    : std_logic;
     signal ler       : std_logic;
     signal escrever  : std_logic;
+    signal escr_A_B   : std_logic;
+    signal ler_C     : std_logic;
     signal op_code   : std_logic_vector(2 downto 0) := (others => '0');
 
     signal status    : status_t   := (i_menor => '0', j_menor => '0', w_menor => '0');
@@ -42,7 +44,8 @@ architecture sim of tb_bc is
                std_match(a.cAc,  b.cAc)  and
                std_match(a.zAc,  b.zAc)  and
                std_match(a.cOp,  b.cOp)  and
-               std_match(a.zRegSaida, b.zRegSaida);
+               std_match(a.zRegSaida, b.zRegSaida) and
+               std_match(a.zMem , b.zMem);
     end function;
 
 begin
@@ -54,6 +57,9 @@ begin
             iniciar  => iniciar,
             status  => status,
             op_code  => op_code,
+
+            escr_A_B => escr_A_B,
+            ler_C => ler_C,
 
             ler  => ler,
             escrever  => escrever,
@@ -99,7 +105,9 @@ begin
             --sinais esperados
             constant pronto_exp : in std_logic;
             constant ler_exp : in std_logic;
+            constant ler_C_exp : in std_logic;
             constant escrever_exp : in std_logic;
+            constant escr_A_B_exp : in std_logic;
             constant cmd_exp : in comandos_t; 
         
             constant msg : in string
@@ -109,7 +117,7 @@ begin
             wait until falling_edge(clk); 
 
             -- Valida os sinais esperados que estão fora do record
-            assert (pronto = pronto_exp and ler = ler_exp and escrever = escrever_exp)
+            assert (pronto = pronto_exp and ler = ler_exp and ler_C = ler_C_exp and escr_A_B = escr_A_B_exp and escrever = escrever_exp)
                 report "FALHA nos sinais globais (pronto/ler/escrever) em: " & msg
                 severity error;
                 
@@ -134,11 +142,11 @@ begin
             reset_system;
 
             -- Em S0 -> S1
-            cmd_esperado := (others => '0'); 
+            cmd_esperado := (zMem => '1', others => '0'); 
             
             passo_e_verifica(
                 st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => op_desejado,
-                pronto_exp => '1', ler_exp => '0', escrever_exp => '0',
+                pronto_exp => '1', ler_exp => '0', ler_C_exp => '1', escrever_exp => '0', escr_A_B_exp => '1',
                 cmd_exp => cmd_esperado, msg => "Estado S0-S1 - TESTE S0_ATE_S8"
             );
 
@@ -153,7 +161,7 @@ begin
 
             passo_e_verifica(
                 st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => op_desejado,
-                pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+                pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
                 cmd_exp => cmd_esperado, msg => "Estado S1-S2 - TESTE S0_ATE_S8"
             );
             iniciar <= '0'; 
@@ -163,7 +171,7 @@ begin
 
             passo_e_verifica(
                 st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => op_desejado,
-                pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+                pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
                 cmd_exp => cmd_esperado, msg => "Estado S2-S6 - TESTE S0_ATE_S8"
             );
 
@@ -174,7 +182,7 @@ begin
 
             passo_e_verifica(
                 st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => op_desejado,
-                pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+                pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
                 cmd_exp => cmd_esperado, msg => "Estado S6-S7 - TESTE S0_ATE_S8"
             );
 
@@ -183,7 +191,7 @@ begin
 
             passo_e_verifica(
                 st_i_menor => '1', st_j_menor => '0', st_w_menor => '0', op => op_desejado,
-                pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+                pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
                 cmd_exp => cmd_esperado, msg => "Estado S7-S8 - TESTE S0_ATE_S8"
             );
 
@@ -200,12 +208,12 @@ begin
         reset_system; -- Coloca em S0
         
         -- Em S0 -> S1
-        cmd_esperado := (others => '0'); --reseta todos os sinais
+        cmd_esperado := (zMem => '0', others => '0'); --reseta todos os sinais
         
         -- Mantemos iniciar em '0' para continuar em S0 e testamos as saídas
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "000",
-            pronto_exp => '1', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '1', ler_exp => '0', ler_C_exp => '1', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S0-S1 - TESTE GERAL"
         );
 
@@ -221,7 +229,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "000",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S1-S2 - TESTE GERAL"
         );
         iniciar <= '0'; -- Desliga o iniciar para os próximos estados
@@ -231,7 +239,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '1', st_j_menor => '0', st_w_menor => '0', op => "000",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S2-S3 - TESTE GERAL"
         );
 
@@ -240,19 +248,19 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '1', st_w_menor => '0', op => "000",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S3-S4 - TESTE GERAL"
         );
 
         -- Em S4 -> S3
         cmd_esperado := (
-            cEnd => '1', zEnd => '1', cJ => '1', zJ => '1',
+            cEnd => '1', zEnd => '1', cJ => '1', zJ => '1', zMem => '0',
             others => '0'
         );
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "000",
-            pronto_exp => '0', ler_exp => '1', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '1', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S4-S3 - TESTE GERAL"
         );
 
@@ -261,7 +269,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "000",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S3-S5 - TESTE GERAL"
         );
 
@@ -272,7 +280,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "000",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S5-S2 - TESTE GERAL"
         );
 
@@ -281,7 +289,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "000",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S2-S6 - TESTE GERAL"
         );
 
@@ -292,7 +300,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "000",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S6-S7 - TESTE GERAL"
         );
 
@@ -301,7 +309,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '1', st_j_menor => '0', st_w_menor => '0', op => "000",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S7-S8 - TESTE GERAL"
         );
 
@@ -312,7 +320,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "000",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S8-S17 - TESTE GERAL"
         );
 
@@ -323,7 +331,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "000",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S17-S7 - TESTE GERAL"
         );
 
@@ -332,7 +340,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "000",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S7-S18 - TESTE GERAL"
         );
 
@@ -343,7 +351,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "000",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S18-S19 - TESTE GERAL"
         );
 
@@ -352,7 +360,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '1', st_j_menor => '0', st_w_menor => '0', op => "000",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S19-S20 - TESTE GERAL"
         );
 
@@ -361,18 +369,18 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '1', st_w_menor => '0', op => "000",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S20-S21 - TESTE GERAL"
         );
 
         -- Em S21 -> S20
         cmd_esperado := ( 
-            cEnd => '1', zEnd => '1', cJ => '1', zJ => '1',
+            cEnd => '1', zEnd => '1', cJ => '1', zJ => '1', zMem => '0',
             others => '0');
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "000",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '1',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '1',
             cmd_exp => cmd_esperado, msg => "Estado S21-S20 - TESTE GERAL"
         );
 
@@ -381,7 +389,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "000",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S20-S22 - TESTE GERAL"
         );
 
@@ -392,7 +400,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "000",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S22-S19 - TESTE GERAL"
         );
 
@@ -401,7 +409,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "000",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S19-S0 - TESTE GERAL"
         );
 
@@ -422,7 +430,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '1', st_w_menor => '0', op => "000",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S8-S9 - TESTE ADICAO"
         );
 
@@ -433,7 +441,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "000",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S9-S8 - TESTE ADICAO"
         );
 
@@ -450,7 +458,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '1', st_w_menor => '0', op => "001",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S8-S10 - TESTE SUBTRACAO"
         );
 
@@ -461,7 +469,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "001",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S10-S8 - TESTE SUBTRACAO"
         );
 
@@ -478,7 +486,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '1', st_w_menor => '0', op => "010",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S8-S11 - TESTE TRANSPOSICAO"
         );
 
@@ -489,7 +497,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "010",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S11-S8 - TESTE TRANSPOSICAO"
         );
 
@@ -506,7 +514,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '1', st_w_menor => '0', op => "011",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S8-S12 - TESTE MULTIPLICACAO POR ESCALAR"
         );
 
@@ -517,7 +525,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "011",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S12-S8 - TESTE MULTIPLICACAO POR ESCALAR"
         );
 
@@ -534,7 +542,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '1', st_w_menor => '0', op => "100",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S8-S13 - TESTE CONVOLUCAO"
         );
 
@@ -545,7 +553,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "100",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S13-S8 - TESTE CONVOLUCAO"
         );
 
@@ -562,7 +570,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '1', st_w_menor => '0', op => "101",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S8-S14 - TESTE MULTIPLICACAO MATRICIAL"
         );
 
@@ -571,7 +579,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '1', op => "101",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S14-S15 - TESTE MULTIPLICACAO MATRICIAL"
         );
 
@@ -582,7 +590,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "101",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S15-S14 - TESTE MULTIPLICACAO MATRICIAL"
         );
 
@@ -591,7 +599,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "101",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S14-S16 - TESTE MULTIPLICACAO MATRICIAL"
         );
 
@@ -602,7 +610,7 @@ begin
 
         passo_e_verifica(
             st_i_menor => '0', st_j_menor => '0', st_w_menor => '0', op => "101",
-            pronto_exp => '0', ler_exp => '0', escrever_exp => '0',
+            pronto_exp => '0', ler_exp => '0', ler_C_exp =>'0', escr_A_B_exp => '0', escrever_exp => '0',
             cmd_exp => cmd_esperado, msg => "Estado S16-S8 - TESTE MULTIPLICACAO MATRICIAL"
         );
 
