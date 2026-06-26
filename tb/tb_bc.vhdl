@@ -254,7 +254,7 @@ begin
 
         -- Em S4 -> S3
         cmd_esperado := (
-            cEnd => '1', zEnd => '1', cJ => '1', zJ => '1', zMem => '0'
+            cEnd => '1', zEnd => '1', cJ => '1', zJ => '1', zMem => '0',
             others => '0'
         );
 
