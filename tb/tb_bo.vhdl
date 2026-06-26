@@ -10,6 +10,9 @@ architecture sim of tb_bo is
 
   type matrix_t is array (natural range <>, natural range <>) of signed(W-1 downto 0);
 
+  constant W : positive  := 8;
+  constant N : positive  := 8;
+
   constant A1 : matrix_t(0 to 1, 0 to 2) := (
         (to_signed(1, W), to_signed(2, W), to_signed(3, W)),
         (to_signed(4, W), to_signed(5, W), to_signed(6, W))
@@ -20,8 +23,7 @@ architecture sim of tb_bo is
         (to_signed(7, W), to_signed(8, W), to_signed(9, W))
     );
 
-  constant W : positive  := 8;
-  constant N : positive  := 8;
+  
   signal clk : std_logic := '0';
 
   signal elementoA   : signed(W - 1 downto 0)       := (others => '0');
@@ -29,7 +31,7 @@ architecture sim of tb_bo is
   signal escalar     : signed(W - 1 downto 0)       := (others => '0');
   signal op_code     : std_logic_vector(2 downto 0) := (others => '0');
   signal elementoC   : signed(ula_length(W, N) - 1 downto 0);
-  signal address_end : std_logic_vector(ceil_log2(CFG.lines_per_mem) - 1 downto 0);
+  signal adress_end : std_logic_vector(ceil_log2(CFG.lines_per_mem) - 1 downto 0);
   signal comandos    : comandos_t := (
   cAc => '0',
   zAc => '0',
@@ -103,8 +105,10 @@ begin
           
       ) is
       begin
-          elementoA    <= (others => (others => (others => '0'))); -- fazendo isso para garantir que não tenham valores antigos na entrada
-          elementoB    <= (others => (others => (others => '0'))); -- fazendo isso para garantir que não tenham valores antigos na entrada
+          --elementoA    <= (others => (others => (others => '0'))); -- fazendo isso para garantir que não tenham valores antigos na entrada
+          --elementoB    <= (others => (others => (others => '0'))); -- fazendo isso para garantir que não tenham valores antigos na entrada
+          elementoA <= (others => '0'); 
+          elementoB <= (others => '0'); 
           comandos.cOp <= '1';
           comandos.zEnd <= '0';
           comandos.cEnd <= '1';
@@ -220,12 +224,12 @@ begin
                 ", esperado=" & integer'image(expected)
                 severity error;
 
-            assert (to_integer(andress_end) = expected_adress) --FAZER CHECAGEM DO ENDEREÇO FINAL 
+            assert (to_integer(unsigned(andress_end)) = expected_adress) --FAZER CHECAGEM DO ENDEREÇO FINAL 
             --INCLUIR ADRESS NA INSTANCIACAO DA FUNCAO
                 report "FALHA: obtido=" & integer'image(to_integer(andress_end)) &
                 ", esperado=" & integer'image(expected_adress) 
                 severity error;
-          end loop;
+          
 
       end process;
 
