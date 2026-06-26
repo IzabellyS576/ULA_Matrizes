@@ -192,8 +192,7 @@ begin
 
                 comandos.zMem <= '1';
 
-                esc_A <= '1';
-                esc_B <= '1';
+                esc_A_B <= '0';
                 ler_C <='1';
 
                 ler <= '0';
@@ -231,8 +230,7 @@ begin
 
                 comandos.zMem <= '-';
 
-                esc_A <= '0';
-                esc_B <= '0';
+                esc_A_B <= '0';
                 ler_C <='0';
 
                 ler <= '0';
@@ -269,8 +267,7 @@ begin
 
                 comandos.zMem <= '-';
 
-                esc_A <= '0';
-                esc_B <= '0';
+                esc_A_B <= '0';
                 ler_C <='0';
 
                 ler <= '0';
@@ -307,8 +304,7 @@ begin
 
                 comandos.zMem <= '-';
 
-                esc_A <= '0';
-                esc_B <= '0';
+                esc_A_B <= '0';
                 ler_C <='0';
 
                 ler <= '0';
@@ -344,8 +340,7 @@ begin
 
                 comandos.zMem <= '-';
 
-                esc_A <= '0';
-                esc_B <= '0';
+                esc_A_B <= '0';
                 ler_C <='0';
 
                 ler <= '1';
@@ -382,8 +377,7 @@ begin
 
                 comandos.zMem <= '-';
 
-                esc_A <= '0';
-                esc_B <= '0';
+                esc_A_B <= '0';
                 ler_C <='0';
 
                 ler <= '0';
@@ -420,8 +414,7 @@ begin
 
                 comandos.zMem <= '-';
 
-                esc_A <= '0';
-                esc_B <= '0';
+                esc_A_B <= '0';
                 ler_C <='0';
 
                 ler <= '0';
@@ -458,8 +451,7 @@ begin
 
                 comandos.zMem <= '-';
 
-                esc_A <= '0';
-                esc_B <= '0';
+                esc_A_B <= '0';
                 ler_C <='0';
 
                 ler <= '0';
@@ -495,8 +487,7 @@ begin
 
                 comandos.zMem <= '-';
 
-                esc_A <= '0';
-                esc_B <= '0';
+                esc_A_B <= '0';
                 ler_C <='0';
 
                 ler <= '0';
@@ -533,8 +524,7 @@ begin
 
                 comandos.zMem <= '-';
 
-                esc_A <= '0';
-                esc_B <= '0';
+                esc_A_B <= '0';
                 ler_C <='0';
 
                 ler <= '0';
@@ -571,8 +561,7 @@ begin
 
                 comandos.zMem <= '-';
 
-                esc_A <= '0';
-                esc_B <= '0';
+                esc_A_B <= '0';
                 ler_C <='0';
 
                 ler <= '0';
@@ -609,8 +598,7 @@ begin
 
                 comandos.zMem <= '-';
 
-                esc_A <= '0';
-                esc_B <= '0';
+                esc_A_B <= '0';
                 ler_C <='0';
 
                 ler <= '0';
@@ -647,8 +635,7 @@ begin
 
                 comandos.zMem <= '-';
 
-                esc_A <= '0';
-                esc_B <= '0';
+                esc_A_B <= '0';
                 ler_C <='0';
 
                 ler <= '0';
@@ -685,8 +672,7 @@ begin
 
                 comandos.zMem <= '-';
 
-                esc_A <= '0';
-                esc_B <= '0';
+                esc_A_B <= '0';
                 ler_C <='0';
 
                 ler <= '0';
@@ -723,8 +709,7 @@ begin
 
                 comandos.zMem <= '-';
 
-                esc_A <= '0';
-                esc_B <= '0';
+                esc_A_B <= '0';
                 ler_C <='0';
 
                 ler <= '0';
@@ -761,8 +746,7 @@ begin
 
                 comandos.zMem <= '-';
 
-                esc_A <= '0';
-                esc_B <= '0';
+                esc_A_B <= '0';
                 ler_C <='0';
 
                 ler <= '0';
@@ -799,8 +783,7 @@ begin
 
                 comandos.zMem <= '-';
 
-                esc_A <= '0';
-                esc_B <= '0';
+                esc_A_B <= '0';
                 ler_C <='0';
 
                 ler <= '0';
@@ -837,8 +820,7 @@ begin
 
                 comandos.zMem <= '-';
 
-                esc_A <= '0';
-                esc_B <= '0';
+                esc_A_B <= '0';
                 ler_C <='0';
 
                 ler <= '0';
@@ -875,8 +857,7 @@ begin
 
                 comandos.zMem <= '-';
 
-                esc_A <= '0';
-                esc_B <= '0';
+                esc_A_B <= '0';
                 ler_C <='0';
 
                 ler <= '0';
@@ -913,8 +894,7 @@ begin
 
                 comandos.zMem <= '-';
 
-                esc_A <= '0';
-                esc_B <= '0';
+                esc_A_B <= '0';
                 ler_C <='0';
 
                 ler <= '0';
@@ -951,8 +931,7 @@ begin
 
                 comandos.zMem <= '-';
 
-                esc_A <= '0';
-                esc_B <= '0';
+                esc_A_B <= '0';
                 ler_C <='0';
 
                 ler <= '0';
@@ -989,8 +968,7 @@ begin
 
                 comandos.zMem <= '0';
 
-                esc_A <= '0';
-                esc_B <= '0';
+                esc_A_B <= '0';
                 ler_C <='0';
 
                 ler <= '0';
@@ -1027,8 +1005,7 @@ begin
 
                 comandos.zMem <= '-';
 
-                esc_A <= '0';
-                esc_B <= '0';
+                esc_A_B <= '0';
                 ler_C <='0';
 
                 ler <= '0';
