@@ -21,13 +21,25 @@ architecture sim of tb_bo is
   
 
   constant A1 : matrix_t(0 to 1, 0 to 2) := (
-        (to_signed(1, W), to_signed(2, W), to_signed(3, W)),
-        (to_signed(4, W), to_signed(5, W), to_signed(6, W))
+        (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W)),
+        (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W)),
+        (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W)),
+        (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W)),
+        (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W)),
+        (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W)),
+        (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W)),
+        (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W)),
     );
 
     constant B1 : matrix_t(0 to 1, 0 to 2) := (
-        (to_signed(4, W), to_signed(5, W), to_signed(6, W)),
-        (to_signed(7, W), to_signed(8, W), to_signed(9, W))
+        (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W)),
+        (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W)),
+        (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W)),
+        (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W)),
+        (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W)),
+        (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W)),
+        (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W)),
+        (to_signed(1, W), to_signed(1, W), to_signed(3, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W), to_signed(1, W)),
     );
 
   
@@ -247,7 +259,7 @@ begin
 
     begin
         assert false report "BOT datapath" severity note;
-        testing(A1, B1, 1, 5, 2);
+        testing(A1, B1, 0, 2, 2);
         
         assert false report "EOT datapath" severity note;
         finished <= true; --parar o clock generator
