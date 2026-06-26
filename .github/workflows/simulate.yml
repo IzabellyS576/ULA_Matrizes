@@ -38,8 +38,8 @@ jobs:
           ghdl -a --std=08 src/convolucao.vhdl
           ghdl -a --std=08 tb/tb_convolucao.vhdl
 
+          ghdl -a --std=08 src/signed_register.vhdl
           ghdl -a --std=08 src/mux_2to1.vhdl
-          ghdl -a --std=08 src/reg_signed.vhdl
           ghdl -a --std=08 src/multiplicacao.vhdl
           ghdl -a --std=08 tb/tb_multiplicacao.vhdl
 
@@ -52,7 +52,7 @@ jobs:
           ghdl -a --std=08 src/mux_8to1.vhdl
           ghdl -a --std=08 src/reg.vhdl
           ghdl -a --std=08 src/signed_adder.vhdl
-          ghdl -a --std=08 src/signed_register.vhdl
+          
           ghdl -a --std=08 src/ula_bo.vhdl
 
           ghdl -a --std=08 tb/tb_bo.vhdl
