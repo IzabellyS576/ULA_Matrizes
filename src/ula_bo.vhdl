@@ -73,7 +73,7 @@ architecture arch of ula_bo is
 
   signal mult_matricial_out : signed(ula_len - 1 downto 0);
 
-  signal resize_reg_a_out_ula_len: signed(CFG.bits_per_element-1 downto 0);
+  signal resize_reg_a_out_ula_len: signed(ula_len-1 downto 0);
 
 begin
 
