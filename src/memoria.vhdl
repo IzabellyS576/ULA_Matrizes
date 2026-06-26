@@ -42,7 +42,7 @@ begin
     );
 
     MUX_LER: entity work.mux_2to1(rtl)
-    generic map(N => 6)
+    generic map(N => 1)
     port map (
             sel  => comandos.zMem,
             in_0  => ler_dado, --sinal ler do TB
