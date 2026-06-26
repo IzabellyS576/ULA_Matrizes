@@ -22,8 +22,8 @@ begin
     MUX_COUNTER: entity work.mux_2to1(rtl)
 	generic map (N => N)
 	port map(sel => sel_mux,
-			 in_0 => std_logic_vector(to_unsigned(0, N)),
-			 in_1 => std_logic_vector(adder_out(N-1 downto 0)),
+			 input_a => std_logic_vector(to_unsigned(0, N)),
+			 input_b => std_logic_vector(adder_out(N-1 downto 0)),
 			 y => mux_out);
 
 	REG_COUNTER: entity work.unsigned_register(behavior)
