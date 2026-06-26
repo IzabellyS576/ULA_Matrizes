@@ -3,10 +3,10 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.ula_pack.all;
 
-entity tb is
+entity tb_bo is
 end entity tb;
 
-architecture sim of tb is
+architecture sim of tb_bo is
 
   type matrix_t is array (natural range <>, natural range <>) of signed(W-1 downto 0);
 
