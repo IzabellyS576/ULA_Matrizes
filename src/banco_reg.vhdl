@@ -28,8 +28,8 @@ architecture rtl of banco_reg is
     signal linha_i, coluna_j : integer range 0 to 2**tam_end - 1;  -- Sinais auxiliares do tipo integer para usar como índice de array
 
 begin
-    linha_i <= integer(unsigned(end_i));
-    coluna_j <= integer(unsigned(end_j));
+    linha_i <= to_integer(unsigned(end_i));
+    coluna_j <= to_integer(unsigned(end_j));
 
     process(clk, reset)
     begin
