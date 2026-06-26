@@ -1,5 +1,3 @@
--- RESPONSABILIDADE: verificar integração e controle
-
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -13,13 +11,13 @@ architecture sim of tb_ula is
     constant W          : positive := 8;
     constant N          : positive := 3;
 
-    signal clk     : std_logic := '0';
-    signal rst     : std_logic := '0';
-    signal inic    : std_logic := '0';
-    signal escalar : signed(W-1 downto 0) := (others => '0');
-    signal op_code : std_logic_vector(2 downto 0) := (others => '0');
-    signal pronto  : std_logic;
-
+    signal clk      : std_logic := '0';
+    signal rst      : std_logic := '0';
+    signal inic     : std_logic := '0';
+    signal escalar  : signed(W-1 downto 0) := (others => '0');
+    signal op_code  : std_logic_vector(2 downto 0) := (others => '0');
+    signal pronto   : std_logic;
+    
     signal finished : boolean := false; -- para parar o gerador de clock no fim da simulação
 
 begin
@@ -37,7 +35,7 @@ begin
 
     clk_proc: process    -- Gerador de clock, fica alternando 0/1 até sim_done virar true
     begin
-        while not sim_done loop
+        while not finished loop
             clk <= '0'; wait for CLK_PERIOD / 2;
             clk <= '1'; wait for CLK_PERIOD / 2;
         end loop;
@@ -60,7 +58,6 @@ begin
             inic <= '1';
             wait until rising_edge(clk);
             inic <= '0';
-
 
             -- Aguarda pronto subir (a FSM terminou a operação)
             -- Timeout de 10000 ciclos evita loop infinito se algo travar
@@ -129,7 +126,7 @@ begin
 
     -- Fim da simulação
         report "Todos os testes do toplevel concluídos!";
-        sim_done <= true;       -- sinaliza o gerador de clock para parar
+        finished <= true;       -- sinaliza o gerador de clock para parar
         wait;
     end process;
 
