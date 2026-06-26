@@ -11,7 +11,7 @@ architecture sim of tb_bo is
   constant W : positive  := 8;
   constant N : positive  := 8;
 
-  signal CFG : datapath_configuration_t := (
+  constant CFG_tb : datapath_configuration_t := (
     bits_per_element => 8,
     lines_per_mem    => 64
     );
@@ -39,7 +39,7 @@ architecture sim of tb_bo is
   signal escalar     : signed(W - 1 downto 0)       := (others => '0');
   signal op_code     : std_logic_vector(2 downto 0) := (others => '0');
   signal elementoC   : signed(ula_length(W, N) - 1 downto 0);
-  signal address_end : std_logic_vector(ceil_log2(CFG.lines_per_mem) - 1 downto 0);
+  signal address_end : std_logic_vector(ceil_log2(CFG_tb.lines_per_mem) - 1 downto 0);
   signal comandos    : comandos_t := (
   cAc => '0',
   zAc => '0',
