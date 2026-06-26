@@ -58,6 +58,7 @@ architecture sim of tb_bo is
   cOp       => '1',
   zRegSaida => '0'
   );
+  signal status: status_t;
   constant period : time    := 20 ns;
   signal finished : boolean := false; --para o clock generator quando o teste terminar
 
@@ -92,7 +93,10 @@ begin
         escalar     => escalar,
         op_code     => op_code,
         elementoC   => elementoC,
-        address_end => address_end
+        address_end => address_end,
+        rst => rst, 
+        status => status,
+        comandos => comandos
     );
 
       st : process
