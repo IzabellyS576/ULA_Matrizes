@@ -14,6 +14,7 @@ entity ula is
         inic: in  std_logic;
         escalar: in  signed(W-1 downto 0);
         op_code: in  std_logic_vector(2 downto 0);
+        endereco_dado : in std_logic_vector(5 downto 0);
         pronto: out std_logic
     );
 end entity ula;
@@ -21,8 +22,10 @@ end entity ula;
 architecture structure of ula is
     signal comandos : comandos_t;
     signal status : status_t;
-    signal ler_mem : std_logic;
-    signal escr_mem : std_logic;
+    signal s_ler_mem : std_logic;
+    signal s_ler_dado : std_logic;
+    signal s_escr_mem : std_logic;
+    signal s_escr_dado : std_logic;
     signal elem_a : signed(W-1 downto 0);
     signal elem_b : signed(W-1 downto 0);
     signal elem_c : signed(ula_length(bits_per_value => W, matrix_size => N)-1 downto 0);
@@ -35,8 +38,10 @@ begin
             iniciar => inic,
             status => status,
             op_code => op_code,
-            ler => ler_mem,
-            escrever => escr_mem,
+            ler => s_ler_mem,
+            escr_A_B => s_escr_dado,
+            ler_C => s_ler_dado,
+            escrever => s_escr_mem,
             pronto => pronto,
             comandos => comandos
             );
@@ -65,26 +70,34 @@ begin
 			))
     port map (
             clk  => clk,
-            ler  => ler_mem,
-            escrever  => '0',
+            ler  => s_ler_mem,
+            ler_dado => s_ler_dado,
+            escrever  => s_escr_mem,
+            escrever_dado => s_escr_dado,
             endereco => endr,
+            endereco_dado => endereco_dado,
             dado_entrada => (others => '0'),
-            dado_saida   => elem_a
+            dado_saida   => elem_a,
+            comandos => comandos
 
     );
 
     MEM_B: entity work.memoria(arch)
    generic map(CFG => (
-				bits_per_element => W, 
+		bits_per_element => W, 
                 lines_per_mem => N*N
 			))
     port map (
             clk  => clk,
-            ler  => ler_mem,
-            escrever  => '0',
+            ler  => s_ler_mem,
+            ler_dado => s_ler_dado,
+            escrever  => s_escr_mem,
+            escrever_dado => s_escr_dado,
             endereco => endr,
+            endereco_dado => endereco_dado,
             dado_entrada => (others => '0'),
-            dado_saida   => elem_b
+            dado_saida   => elem_b,
+            comandos => comandos
     );
 
     MEM_C: entity work.memoria(arch)
@@ -94,11 +107,15 @@ begin
 			))
     port map (
             clk => clk,
-            ler => '0',
-            escrever => escr_mem,
+            ler  => s_ler_mem,
+            ler_dado => s_ler_dado,
+            escrever  => s_escr_mem,
+            escrever_dado => s_escr_dado,
             endereco => endr,
+            endereco_dado => endereco_dado,
             dado_entrada => elem_c,
-            dado_saida   => open
+            dado_saida   => open,
+            comandos => comandos
     );
     
 end architecture structure;

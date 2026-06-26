@@ -25,7 +25,9 @@ jobs:
           
       - name: Analisar arquivos
         run: |
+        
           ghdl -a src/ula_pack.vhdl
+          ghdl -a src/mux_2to1_1b.vhdl
 
           ghdl -a src/mult_escalar.vhdl 
           ghdl -a tb/tb_mult_escalar.vhdl
