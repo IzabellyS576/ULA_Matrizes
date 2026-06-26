@@ -38,8 +38,10 @@ jobs:
 
           ghdl -a src/convolucao.vhdl
           ghdl -a tb/tb_convolucao.vhdl
-
           
+          ghdl -a src/mux_2to1.vhdl
+          ghdl -a src/reg_signed.vhdl
+
           ghdl -a src/multiplicacao.vhdl
           ghdl -a tb/tb_multiplicacao.vhdl
           
@@ -50,10 +52,8 @@ jobs:
           ghdl -a src/comparator.vhdl
           ghdl -a src/counter.vhdl
           ghdl -a src/memoria.vhdl
-          ghdl -a src/mux_2to1.vhdl
           ghdl -a src/mux_8to1.vhdl
           ghdl -a src/reg.vhdl
-          ghdl -a src/reg_signed.vhdl
           ghdl -a src/signed_adder
           ghdl -a src/signed_register.vhdl
           ghdl -a src/unsigned_adder.vhdl
