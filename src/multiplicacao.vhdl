@@ -43,8 +43,8 @@ begin
     port map
     (
       sel     => comandos.zAc, -- sempre seleciona a entrada 0, que é a saída da multiplicação
-      input_a => (others => '0'),
-      input_b => std_logic_vector(saida_soma), -- entrada 1 do mux é zero
+      in_0 => (others => '0'),
+      in_1 => std_logic_vector(saida_soma), -- entrada 1 do mux é zero
       y       => saida_mux
     );
 

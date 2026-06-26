@@ -47,7 +47,7 @@ architecture sim of tb_bc is
 
 begin
 
-    uut: entity work.bc 
+    uut: entity work.ula_bc(behavior)
         port map (
             clk => clk,
             rst => rst,

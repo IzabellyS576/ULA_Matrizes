@@ -26,7 +26,7 @@ architecture structure of ula is
     signal elem_a : signed(W-1 downto 0);
     signal elem_b : signed(W-1 downto 0);
     signal elem_c : signed(ula_length(bits_per_value => W, matrix_size => N)-1 downto 0);
-    signal endr : std_logic_vector(5 downto 0);
+    signal endr : std_logic_vector(ceil_log2(N*N) - 1 downto 0);
 
 begin
     ULA_BC: entity work.ula_bc(behavior)
@@ -89,7 +89,7 @@ begin
 
     MEM_C: entity work.memoria(arch)
     generic map(CFG => (
-				bits_per_element => ula_length(bits_per_value => W, matrix_size => N, 
+				bits_per_element => ula_length(bits_per_value => W, matrix_size => N), 
                 lines_per_mem => N*N
 			))
     port map (
