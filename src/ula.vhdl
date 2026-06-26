@@ -14,6 +14,7 @@ entity ula is
         inic: in  std_logic;
         escalar: in  signed(W-1 downto 0);
         op_code: in  std_logic_vector(2 downto 0);
+        endereco_dado : in std_logic_vector(5 downto 0);
         pronto: out std_logic
     );
 end entity ula;
@@ -74,8 +75,10 @@ begin
             escrever  => s_escr_mem,
             escrever_dado => s_escr_dado,
             endereco => endr,
+            endereco_dado => endereco_dado,
             dado_entrada => (others => '0'),
-            dado_saida   => elem_a
+            dado_saida   => elem_a,
+            comandos => comandos
 
     );
 
@@ -91,8 +94,10 @@ begin
             escrever  => s_escr_mem,
             escrever_dado => s_escr_dado,
             endereco => endr,
+            endereco_dado => endereco_dado,
             dado_entrada => (others => '0'),
-            dado_saida   => elem_b
+            dado_saida   => elem_b,
+            comandos => comandos
     );
 
     MEM_C: entity work.memoria(arch)
@@ -107,8 +112,10 @@ begin
             escrever  => s_escr_mem,
             escrever_dado => s_escr_dado,
             endereco => endr,
+            endereco_dado => endereco_dado,
             dado_entrada => elem_c,
-            dado_saida   => open
+            dado_saida   => open,
+            comandos => comandos
     );
     
 end architecture structure;
