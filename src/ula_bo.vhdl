@@ -118,27 +118,27 @@ begin
   --=============== COMPARADORES ===============-- 
 
   COMP_I : entity work.comparator(behavior)
-    generic map(N => address_matrix_length)
+    generic map(N => 3)
     port map
     (
       a     => unsigned(address_i),
-      b     => to_unsigned(matrix_order, address_matrix_length),
+      b     => to_unsigned(matrix_order, 3),
       menor => status.i_menor
     );
   COMP_J : entity work.comparator(behavior)
-    generic map(N => address_matrix_length)
+    generic map(N => 3)
     port map
     (
       a     => unsigned(address_J),
-      b     => to_unsigned(matrix_order, address_matrix_length),
+      b     => to_unsigned(matrix_order, 3),
       menor => status.j_menor
     );
   COMP_W : entity work.comparator(behavior)
-    generic map(N => address_matrix_length)
+    generic map(N => 3)
     port map
     (
       a     => unsigned(address_W),
-      b     => to_unsigned(matrix_order, address_matrix_length),
+      b     => to_unsigned(matrix_order, 3),
       menor => status.w_menor
     );
   --=============== MUXES ===============-- 
