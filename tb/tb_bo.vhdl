@@ -80,7 +80,7 @@ begin
         bits_per_element => 8,
         lines_per_mem    => 64
         )
-      );
+      )
 
       port map
       (
