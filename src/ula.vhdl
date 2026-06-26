@@ -29,7 +29,7 @@ architecture structure of ula is
     signal endr : std_logic_vector(5 downto 0);
 
 begin
-    ULA_BC: entity work.bc(behavior) --COMENTÁRIO P REFATORAÇÃO: não seria melhor se o nome do arquivo do BC fosse ula_bc.vhdl?
+    ULA_BC: entity work.ula_bc(behavior) --COMENTÁRIO P REFATORAÇÃO: não seria melhor se o nome do arquivo do BC fosse ula_bc.vhdl?
     port map(clk => clk,
             rst => rst,
             iniciar => inic,
@@ -84,7 +84,7 @@ begin
             escrever  => '0',
             endereco => endr,
             dado_entrada => (others => '0'),
-            dado_saida   => elem_a
+            dado_saida   => elem_b
     );
 
     MEM_C: entity work.memoria(arch)
