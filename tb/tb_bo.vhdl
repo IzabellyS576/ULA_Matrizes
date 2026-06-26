@@ -4,7 +4,7 @@ use ieee.numeric_std.all;
 use work.ula_pack.all;
 ---vai pfv
 entity tb_bo is
-end tb;
+end tb_bo;
 
 architecture sim of tb_bo is
 
