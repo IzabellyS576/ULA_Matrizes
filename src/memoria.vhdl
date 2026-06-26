@@ -28,7 +28,7 @@ architecture arch of memoria is
     type mem_t is array (0 to CFG.lines_per_mem-1) of signed(CFG.bits_per_element-1 downto 0);
     signal mem : mem_t := (others => (others => '0'));
     signal s_endereco_escolhido : std_logic_vector(5 downto 0);
-    signal s_ler : std_logic_vector(0 downto 0);
+    signal s_ler : std_logic;
     signal s_escrever : std_logic;
 begin
 
@@ -41,8 +41,7 @@ begin
             y => s_endereco_escolhido
     );
 
-    MUX_LER: entity work.mux_2to1(rtl)
-    generic map(N => 1)
+    MUX_LER: entity work.mux_2to1_1b(rtl)
     port map (
             sel  => comandos.zMem,
             in_0  => ler_dado, --sinal ler do TB
@@ -50,8 +49,7 @@ begin
             y => s_ler
     );
 
-    MUX_ESCREVER: entity work.mux_2to1(rtl)
-    generic map(N => 6)
+    MUX_ESCREVER: entity work.mux_2to1_1b(rtl)
     port map (
             sel  => comandos.zMem,
             in_0  => escrever_dado, --sinal escrever do TB
