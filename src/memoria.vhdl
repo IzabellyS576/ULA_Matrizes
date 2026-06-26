@@ -28,7 +28,7 @@ architecture arch of memoria is
     type mem_t is array (0 to CFG.lines_per_mem-1) of signed(CFG.bits_per_element-1 downto 0);
     signal mem : mem_t := (others => (others => '0'));
     signal s_endereco_escolhido : std_logic_vector(5 downto 0);
-    signal s_ler : std_logic;
+    signal s_ler : std_logic_vector(0 downto 0);
     signal s_escrever : std_logic;
 begin
 
