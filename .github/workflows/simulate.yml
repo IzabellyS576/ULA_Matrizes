@@ -56,7 +56,7 @@ jobs:
           ghdl -a src/memoria.vhdl
           ghdl -a src/mux_8to1.vhdl
           ghdl -a src/reg.vhdl
-          ghdl -a src/signed_adder
+          ghdl -a src/signed_adder.vhdl
           ghdl -a src/signed_register.vhdl
           ghdl -a src/ula_bo.vhdl
           
