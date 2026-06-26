@@ -55,7 +55,7 @@ jobs:
           ghdl -a --std=08 src/signed_register.vhdl
           ghdl -a --std=08 src/ula_bo.vhdl
 
-          ghdl -a --std=08 tb/tb_bo.vhdl
+          ghdl -a --std=08 tb/tb_b.vhdl
           
 
 
