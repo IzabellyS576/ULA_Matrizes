@@ -2,7 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use work.ula_pack.all;
 
-entity bc is
+entity ula_bc is
 	port(
 		clk: in std_logic;  
 		rst: in std_logic;   
@@ -18,7 +18,7 @@ entity bc is
 end entity;
 
 
-architecture behavior of bc is
+architecture behavior of ula_bc is
    type state_t is (S0, S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15, S16, S17, S18, S19, S20, S21, S22);
    signal current_state, next_state : state_t;
 begin
