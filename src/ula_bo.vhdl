@@ -24,7 +24,7 @@ entity ula_bo is
     op_code   : in std_logic_vector(2 downto 0);
 
     address_end : out std_logic_vector(ceil_log2(CFG.lines_per_mem) - 1 downto 0); --log2 do numero de linhas da memoria [tamanho da variável end]
-    elementoC   : out signed(ula_length(bits_per_value => CFG.bits_per_element, matrix_size => get_matrix_order(CFG.lines_per_mem)) - 1 downto 0);
+    elementoC   : out signed(ula_length(bits_per_value => CFG.bits_per_element, matrix_size => get_matrix_order(CFG.lines_per_mem)) - 1 downto 0)
   );
 end ula_bo;
 
