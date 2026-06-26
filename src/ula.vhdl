@@ -29,7 +29,7 @@ architecture structure of ula is
     signal endr : std_logic_vector(5 downto 0);
 
 begin
-    ULA_BC: entity work.ula_bc(behavior) --COMENTÁRIO P REFATORAÇÃO: não seria melhor se o nome do arquivo do BC fosse ula_bc.vhdl?
+    ULA_BC: entity work.ula_bc(behavior)
     port map(clk => clk,
             rst => rst,
             iniciar => inic,
@@ -42,10 +42,10 @@ begin
             );
 
     ULA_BO: entity work.ula_bo(arch)
-    generic map(CFG => 
-                (bits_per_element => W, 
-                lines_per_mem => N*N)
-                )
+    generic map(CFG => (
+				bits_per_element => W, 
+                lines_per_mem => N*N
+			))
     port map (clk => clk,
             rst => rst,
             comandos => comandos,
@@ -59,10 +59,10 @@ begin
             );
 
     MEM_A: entity work.memoria(arch)
-    generic map(CFG => 
-                (bits_per_element => W, 
-                lines_per_mem => N*N)
-                )
+    generic map(CFG => (
+				bits_per_element => W, 
+                lines_per_mem => N*N
+			))
     port map (
             clk  => clk,
             ler  => ler_mem,
@@ -74,10 +74,10 @@ begin
     );
 
     MEM_B: entity work.memoria(arch)
-   generic map(CFG => 
-                (bits_per_element => W, 
-                lines_per_mem => N*N)
-                )
+   generic map(CFG => (
+				bits_per_element => W, 
+                lines_per_mem => N*N
+			))
     port map (
             clk  => clk,
             ler  => ler_mem,
@@ -88,10 +88,10 @@ begin
     );
 
     MEM_C: entity work.memoria(arch)
-    generic map(CFG => 
-                (bits_per_element => ula_length(bits_per_value => W, matrix_size => N), 
-                lines_per_mem => N*N)
-                )
+    generic map(CFG => (
+				bits_per_element => ula_length(bits_per_value => W, matrix_size => N, 
+                lines_per_mem => N*N
+			))
     port map (
             clk => clk,
             ler => '0',
