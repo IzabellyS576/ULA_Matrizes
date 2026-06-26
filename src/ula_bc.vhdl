@@ -190,9 +190,16 @@ begin
 
                 comandos.zRegSaida <= '-';
 
+                comandos.zMem <= '1';
+
+                esc_A <= '1';
+                esc_B <= '1';
+                ler_C <='1';
+
                 ler <= '0';
                 escrever <= '0';
                 pronto <= '1';
+                
 
             WHEN S1 =>
                 comandos.cEnd <= '1';
@@ -221,6 +228,12 @@ begin
                 comandos.cOp <= '1';
 
                 comandos.zRegSaida <= '-';
+
+                comandos.zMem <= '-';
+
+                esc_A <= '0';
+                esc_B <= '0';
+                ler_C <='0';
 
                 ler <= '0';
                 escrever <= '0';
@@ -254,6 +267,12 @@ begin
 
                 comandos.zRegSaida <= '-';
 
+                comandos.zMem <= '-';
+
+                esc_A <= '0';
+                esc_B <= '0';
+                ler_C <='0';
+
                 ler <= '0';
                 escrever <= '0';
                 pronto <= '0';
@@ -286,6 +305,12 @@ begin
 
                 comandos.zRegSaida <= '-';
 
+                comandos.zMem <= '-';
+
+                esc_A <= '0';
+                esc_B <= '0';
+                ler_C <='0';
+
                 ler <= '0';
                 escrever <= '0';
                 pronto <= '0';
@@ -316,6 +341,12 @@ begin
                 comandos.cOp <= '0';
 
                 comandos.zRegSaida <= '-';
+
+                comandos.zMem <= '-';
+
+                esc_A <= '0';
+                esc_B <= '0';
+                ler_C <='0';
 
                 ler <= '1';
                 escrever <= '0';
@@ -349,6 +380,12 @@ begin
 
                 comandos.zRegSaida <= '-';
 
+                comandos.zMem <= '-';
+
+                esc_A <= '0';
+                esc_B <= '0';
+                ler_C <='0';
+
                 ler <= '0';
                 escrever <= '0';
                 pronto <= '0';
@@ -380,6 +417,12 @@ begin
                 comandos.cOp <= '0';
 
                 comandos.zRegSaida <= '-';
+
+                comandos.zMem <= '-';
+
+                esc_A <= '0';
+                esc_B <= '0';
+                ler_C <='0';
 
                 ler <= '0';
                 escrever <= '0';
@@ -413,6 +456,12 @@ begin
 
                 comandos.zRegSaida <= '-';
 
+                comandos.zMem <= '-';
+
+                esc_A <= '0';
+                esc_B <= '0';
+                ler_C <='0';
+
                 ler <= '0';
                 escrever <= '0';
                 pronto <= '0';
@@ -443,6 +492,12 @@ begin
                 comandos.cOp <= '0';
 
                 comandos.zRegSaida <= '-';
+
+                comandos.zMem <= '-';
+
+                esc_A <= '0';
+                esc_B <= '0';
+                ler_C <='0';
 
                 ler <= '0';
                 escrever <= '0';
@@ -476,6 +531,12 @@ begin
 
                 comandos.zRegSaida <= '0';
 
+                comandos.zMem <= '-';
+
+                esc_A <= '0';
+                esc_B <= '0';
+                ler_C <='0';
+
                 ler <= '0';
                 escrever <= '0';
                 pronto <= '0';
@@ -507,6 +568,12 @@ begin
                 comandos.cOp <= '0';
 
                 comandos.zRegSaida <= '0';
+
+                comandos.zMem <= '-';
+
+                esc_A <= '0';
+                esc_B <= '0';
+                ler_C <='0';
 
                 ler <= '0';
                 escrever <= '0';
@@ -540,6 +607,12 @@ begin
 
                 comandos.zRegSaida <= '1';
 
+                comandos.zMem <= '-';
+
+                esc_A <= '0';
+                esc_B <= '0';
+                ler_C <='0';
+
                 ler <= '0';
                 escrever <= '0';
                 pronto <= '0';
@@ -571,6 +644,12 @@ begin
                 comandos.cOp <= '0';
 
                 comandos.zRegSaida <= '0';
+
+                comandos.zMem <= '-';
+
+                esc_A <= '0';
+                esc_B <= '0';
+                ler_C <='0';
 
                 ler <= '0';
                 escrever <= '0';
@@ -604,6 +683,12 @@ begin
 
                 comandos.zRegSaida <= '0';
 
+                comandos.zMem <= '-';
+
+                esc_A <= '0';
+                esc_B <= '0';
+                ler_C <='0';
+
                 ler <= '0';
                 escrever <= '0';
                 pronto <= '0';
@@ -635,6 +720,12 @@ begin
                 comandos.cOp <= '0';
 
                 comandos.zRegSaida <= '-';
+
+                comandos.zMem <= '-';
+
+                esc_A <= '0';
+                esc_B <= '0';
+                ler_C <='0';
 
                 ler <= '0';
                 escrever <= '0';
@@ -668,6 +759,12 @@ begin
 
                 comandos.zRegSaida <= '-';
 
+                comandos.zMem <= '-';
+
+                esc_A <= '0';
+                esc_B <= '0';
+                ler_C <='0';
+
                 ler <= '0';
                 escrever <= '0';
                 pronto <= '0';
@@ -699,6 +796,12 @@ begin
                 comandos.cOp <= '0';
 
                 comandos.zRegSaida <= '0';
+
+                comandos.zMem <= '-';
+
+                esc_A <= '0';
+                esc_B <= '0';
+                ler_C <='0';
 
                 ler <= '0';
                 escrever <= '0';
@@ -732,6 +835,12 @@ begin
 
                 comandos.zRegSaida <= '-';
 
+                comandos.zMem <= '-';
+
+                esc_A <= '0';
+                esc_B <= '0';
+                ler_C <='0';
+
                 ler <= '0';
                 escrever <= '0';
                 pronto <= '0';
@@ -763,6 +872,12 @@ begin
                 comandos.cOp <= '0';
 
                 comandos.zRegSaida <= '-';
+
+                comandos.zMem <= '-';
+
+                esc_A <= '0';
+                esc_B <= '0';
+                ler_C <='0';
 
                 ler <= '0';
                 escrever <= '0';
@@ -796,6 +911,12 @@ begin
 
                 comandos.zRegSaida <= '-';
 
+                comandos.zMem <= '-';
+
+                esc_A <= '0';
+                esc_B <= '0';
+                ler_C <='0';
+
                 ler <= '0';
                 escrever <= '0';
                 pronto <= '0';
@@ -827,6 +948,12 @@ begin
                 comandos.cOp <= '0';
 
                 comandos.zRegSaida <= '-';
+
+                comandos.zMem <= '-';
+
+                esc_A <= '0';
+                esc_B <= '0';
+                ler_C <='0';
 
                 ler <= '0';
                 escrever <= '0';
@@ -860,6 +987,12 @@ begin
 
                 comandos.zRegSaida <= '-';
 
+                comandos.zMem <= '0';
+
+                esc_A <= '0';
+                esc_B <= '0';
+                ler_C <='0';
+
                 ler <= '0';
                 escrever <= '1';
                 pronto <= '0';
@@ -891,6 +1024,12 @@ begin
                 comandos.cOp <= '0';
 
                 comandos.zRegSaida <= '-';
+
+                comandos.zMem <= '-';
+
+                esc_A <= '0';
+                esc_B <= '0';
+                ler_C <='0';
 
                 ler <= '0';
                 escrever <= '0';

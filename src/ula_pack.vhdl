@@ -29,6 +29,7 @@ package ula_pack is
         zAc : std_logic;
         cOp : std_logic;
         zRegSaida : std_logic;
+        zMem : std_logic;
 	end record;
     
     -- Declaração de tipo status_t.

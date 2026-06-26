@@ -14,7 +14,7 @@ entity memoria is
         clk          : in  std_logic;
         ler          : in  std_logic;
         escrever     : in  std_logic;
-        endereco     : in  std_logic_vector(ceil_log2(CFG.lines_per_mem) - 1 downto 0);
+        endereco     : in  std_logic_vector(5 downto 0);
         dado_entrada : in  signed(CFG.bits_per_element-1 downto 0);
         dado_saida   : out signed(CFG.bits_per_element-1 downto 0)
     );
@@ -23,18 +23,29 @@ end entity memoria;
 architecture arch of memoria is
     type mem_t is array (0 to CFG.lines_per_mem-1) of signed(CFG.bits_per_element-1 downto 0);
     signal mem : mem_t := (others => (others => '0'));
+    signal s_endereco_escolhido : std_logic_vector(5 downto 0);
 begin
+
+    MUX: entity work.mux_2to1(rtl)
+    generic map(N => 6)
+    port map (
+            sel  => zMem,
+            input_a  => address_data, --dado para popular mem
+            input_b  => endereco,
+            y => s_endereco_escolhido
+    );
+
     --escrita sincrona
     process(clk)
     begin
         if rising_edge(clk) then
             if escrever = '1' then
-                mem(to_integer(unsigned(endereco))) <= dado_entrada;
+                mem(to_integer(unsigned(s_endereco_escolhido))) <= dado_entrada;
             end if;
         end if;
     end process;
 
     -- leitura assíncrona
-    dado_saida <= mem(to_integer(unsigned(endereco))) when ler = '1'
+    dado_saida <= mem(to_integer(unsigned(s_endereco_escolhido))) when ler = '1'
                   else (others => '0');
 end architecture arch;
