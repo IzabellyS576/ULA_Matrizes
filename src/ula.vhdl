@@ -6,7 +6,7 @@ use work.ula_pack.all;
 entity ula is
 	generic(
         W : positive := 8; -- 'tamanho' em bits das entradas das operações (elementoA, elementoB e escalar)
-        N : positive := 3 -- ordem das matrizes sendo operadas
+        N : positive := 3 -- ordem das matrizes sendo operadas (uma matriz 3x3 teria N = 3)
 	);
 	port(
         clk: in  std_logic;
@@ -89,7 +89,7 @@ begin
 
     MEM_C: entity work.memoria(arch)
     generic map(CFG => 
-                (bits_per_element => W, 
+                (bits_per_element => ula_length(bits_per_value => W, matrix_size => N), 
                 lines_per_mem => N*N)
                 )
     port map (
