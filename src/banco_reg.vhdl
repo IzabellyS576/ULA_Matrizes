@@ -14,13 +14,13 @@ entity banco_reg is
         escrever  : in  std_logic;
         end_i     : in  std_logic_vector(tam_end-1 downto 0);
         end_j     : in  std_logic_vector(tam_end-1 downto 0);
-        d_escrito : in  std_logic_vector(largura-1 downto 0);
-        d_lido    : out std_logic_vector(largura-1 downto 0)
+        d_escrito : in  signed(largura-1 downto 0);
+        d_lido    : out signed(largura-1 downto 0)
     );
 end banco_reg;
 
 architecture rtl of banco_reg is
-    type t_linha is array (0 to 2**tam_end-1) of std_logic_vector(largura-1 downto 0); -- linha da matriz
+    type t_linha is array (0 to 2**tam_end-1) of signed(largura-1 downto 0); -- linha da matriz
     type t_matriz is array (0 to 2**tam_end -1) of t_linha;                            -- array de linhas
 
     signal regs : t_matriz;   -- representa todos os registradores
@@ -28,8 +28,8 @@ architecture rtl of banco_reg is
     signal linha_i, coluna_j : integer range 0 to 2**tam_end - 1;  -- Sinais auxiliares do tipo integer para usar como índice de array
 
 begin
-    linha_i <= integer(unsigned(end_i));
-    coluna_j <= integer(unsigned(end_j));
+    linha_i <= to_integer(unsigned(end_i));
+    coluna_j <= to_integer(unsigned(end_j));
 
     process(clk, reset)
     begin
