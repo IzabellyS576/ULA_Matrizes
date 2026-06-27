@@ -25,7 +25,7 @@ jobs:
           
       - name: Analisar arquivos
         run: |
-        
+          
           ghdl -a src/ula_pack.vhdl
           ghdl -a src/mux_2to1_1b.vhdl
 
@@ -49,7 +49,6 @@ jobs:
           
           ghdl -a src/ula_bc.vhdl
           ghdl -a tb/tb_bc.vhdl
-          ghdl -a tb/tb_ula.vhdl
 
           ghdl -a src/banco_reg.vhdl
           ghdl -a src/comparator.vhdl
@@ -64,6 +63,7 @@ jobs:
           ghdl -a src/ula_bo.vhdl
           
           ghdl -a src/ula.vhdl
+          ghdl -a tb/tb_ula.vhdl
 
       - name: Elaborar
         run: |
