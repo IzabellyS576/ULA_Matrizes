@@ -53,6 +53,7 @@ jobs:
           ghdl -a src/comparator.vhdl
           ghdl -a src/unsigned_adder.vhdl
           ghdl -a src/unsigned_register.vhdl
+          ghdl -a src/signed_register.vhdl
           ghdl -a src/counter.vhdl
           ghdl -a src/memoria.vhdl
           ghdl -a src/mux_8to1.vhdl
