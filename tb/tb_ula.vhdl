@@ -21,7 +21,7 @@ architecture sim of tb_ula is
     signal inic     : std_logic := '0';
     signal escalar  : signed(W-1 downto 0) := (others => '0');
     signal op_code  : std_logic_vector(2 downto 0) := (others => '0');
-    signal endereco_dado : std_logic_vector(5 downto 0) := (others => '0');
+    signal endereco_dado : std_logic_vector(ceil_log2(N*N)-1 downto 0) := (others => '0');
     signal pronto   : std_logic;
 
     -- sinais de acesso direto às memórias (zMem = 1)
