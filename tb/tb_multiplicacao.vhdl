@@ -41,7 +41,9 @@ architecture sim of tb_multiplicacao is
 
   zMult     => '0',
   cOp       => '0',
-  zRegSaida => '0'
+  zRegSaida => '0',
+
+  zMem => '0'
   );
   constant period : time    := 20 ns;
   signal finished : boolean := false; --para o clock generator quando o teste terminar

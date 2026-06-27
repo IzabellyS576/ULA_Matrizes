@@ -8,8 +8,8 @@ entity mux_2to1 is
   );
   port (
     sel     : in std_logic;
-    input_a : in std_logic_vector(N - 1 downto 0);
-    input_b : in std_logic_vector(N - 1 downto 0);
+    in_0 : in std_logic_vector(N - 1 downto 0);
+    in_1 : in std_logic_vector(N - 1 downto 0);
     y       : out std_logic_vector(N - 1 downto 0)
   );
 end entity;
@@ -17,7 +17,7 @@ end entity;
 architecture rtl of mux_2to1 is
 
 begin
-  y <= input_a when sel = '0' else
-    input_b;
+  y <= in_0 when sel = '0' else
+    in_1;
 
 end architecture;

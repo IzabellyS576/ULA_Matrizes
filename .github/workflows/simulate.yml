@@ -25,7 +25,9 @@ jobs:
           
       - name: Analisar arquivos
         run: |
+        
           ghdl -a src/ula_pack.vhdl
+          ghdl -a src/mux_2to1_1b.vhdl
 
           ghdl -a src/mult_escalar.vhdl 
           ghdl -a tb/tb_mult_escalar.vhdl
@@ -38,17 +40,30 @@ jobs:
 
           ghdl -a src/convolucao.vhdl
           ghdl -a tb/tb_convolucao.vhdl
-
+          
           ghdl -a src/mux_2to1.vhdl
           ghdl -a src/reg_signed.vhdl
+
           ghdl -a src/multiplicacao.vhdl
           ghdl -a tb/tb_multiplicacao.vhdl
-
-          ghdl -a src/ula.vhdl
           
-          ghdl -a src/bc.vhdl
+          ghdl -a src/ula_bc.vhdl
           ghdl -a tb/tb_bc.vhdl
           ghdl -a tb/tb_ula.vhdl
+
+          ghdl -a src/banco_reg.vhdl
+          ghdl -a src/comparator.vhdl
+          ghdl -a src/unsigned_adder.vhdl
+          ghdl -a src/unsigned_register.vhdl
+          ghdl -a src/counter.vhdl
+          ghdl -a src/memoria.vhdl
+          ghdl -a src/mux_8to1.vhdl
+          ghdl -a src/reg.vhdl
+          ghdl -a src/signed_adder.vhdl
+          ghdl -a src/signed_register.vhdl
+          ghdl -a src/ula_bo.vhdl
+          
+          ghdl -a src/ula.vhdl
 
       - name: Elaborar
         run: |
