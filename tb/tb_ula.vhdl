@@ -55,7 +55,7 @@ architecture sim of tb_ula is
     constant RES_ESC     : matriz_data_t := (3, 6, 9, 12, 15, 18, 21, 24, 27);
 
     -- convolução A(i) * B(i)
-    constant RES_CONV    : matrix_data_t := (9, 16, 21, 24, 25, 24, 21, 16, 9);
+    constant RES_CONV    : matriz_data_t := (9, 16, 21, 24, 25, 24, 21, 16, 9);
 
     -- multiplicação matricial A*B
     constant RES_MULT    : matriz_data_t := (30, 24, 18, 84, 69, 54, 138, 114, 90);
@@ -166,7 +166,7 @@ begin
         escalar <= to_signed(ESCALAR_VAL, W);
  
         for i in 0 to N*N-1 loop
-            endereco_dado <= to_slv6(i);
+            endereco_dado <= to_slv_end(i);
             s_escrever    <= '1';
             wait_clk(1);
             s_escrever    <= '0';
