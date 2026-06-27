@@ -106,6 +106,20 @@ begin
         status => status,
         comandos => comandos
     );
+       debug_proc: process(clk)
+  begin
+    if rising_edge(clk) then
+      report "t=" & to_string(now) &
+             " op_code=" & to_string(op_code) &
+             " reg_op_code_out=" & to_string(<<signal .tb_bo.DUT.reg_op_code_out : unsigned(2 downto 0)>>) &
+             " reg_A_out=" & to_string(<<signal .tb_bo.DUT.reg_A_out : signed(7 downto 0)>>) &
+             " reg_B_out=" & to_string(<<signal .tb_bo.DUT.reg_B_out : signed(7 downto 0)>>) &
+             " banco_A_out=" & to_string(<<signal .tb_bo.DUT.banco_A_out : signed(7 downto 0)>>) &
+             " banco_B_out=" & to_string(<<signal .tb_bo.DUT.banco_B_out : signed(7 downto 0)>>) &
+             " mux_op_code_out=" & to_string(<<signal .tb_bo.DUT.mux_op_code_out : signed(ula_length(8,8)-1 downto 0)>>) &
+             " elementoC=" & to_string(elementoC);
+    end if;
+  end process;
 
       st : process
         procedure testing(
