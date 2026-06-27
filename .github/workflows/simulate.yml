@@ -27,6 +27,7 @@ jobs:
         
           ghdl -a src/ula_pack.vhdl
           ghdl -a src/mux_2to1_1b.vhdl
+          ghdl -a src/mux_2to1.vhdl
           ghdl -a src/signed_register.vhdl
           ghdl -a src/banco_reg.vhdl
           ghdl -a src/comparator.vhdl
