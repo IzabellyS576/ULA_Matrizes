@@ -27,6 +27,8 @@ jobs:
         
           ghdl -a src/ula_pack.vhdl
           ghdl -a src/mux_2to1_1b.vhdl
+          ghdl -a src/signed_register.vhdl
+
 
           ghdl -a --std=08 src/mult_escalar.vhdl 
           ghdl -a --std=08 tb/tb_mult_escalar.vhdl
@@ -53,7 +55,6 @@ jobs:
           ghdl -a src/comparator.vhdl
           ghdl -a src/unsigned_adder.vhdl
           ghdl -a src/unsigned_register.vhdl
-          ghdl -a src/signed_register.vhdl
           ghdl -a src/counter.vhdl
           ghdl -a src/memoria.vhdl
           ghdl -a src/mux_8to1.vhdl
