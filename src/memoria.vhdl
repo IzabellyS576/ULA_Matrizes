@@ -9,15 +9,15 @@ entity memoria is
             bits_per_element => 8,
             lines_per_mem => 64
         )
-    ); --oioioi
+    );
     port (
         clk          : in  std_logic;
         ler          : in  std_logic;
         ler_dado     : in std_logic;
         escrever     : in  std_logic;
         escrever_dado : in std_logic;
-        endereco     : in  std_logic_vector(5 downto 0);
-        endereco_dado : in std_logic_vector(5 downto 0);
+        endereco     : in  std_logic_vector(ceil_log2(CFG.lines_per_mem)-1 downto 0);
+        endereco_dado : in std_logic_vector(ceil_log2(CFG.lines_per_mem)-1 downto 0);
         dado_entrada : in  signed(CFG.bits_per_element-1 downto 0);
         dado_saida   : out signed(CFG.bits_per_element-1 downto 0);
         comandos: in comandos_t
@@ -27,13 +27,13 @@ end entity memoria;
 architecture arch of memoria is
     type mem_t is array (0 to CFG.lines_per_mem-1) of signed(CFG.bits_per_element-1 downto 0);
     signal mem : mem_t := (others => (others => '0'));
-    signal s_endereco_escolhido : std_logic_vector(5 downto 0);
+    signal s_endereco_escolhido : std_logic_vector(ceil_log2(CFG.lines_per_mem)-1 downto 0);
     signal s_ler : std_logic;
     signal s_escrever : std_logic;
 begin
 
     MUX_ADDRESS: entity work.mux_2to1(rtl)
-    generic map(N => 6)
+    generic map(N => ceil_log2(CFG.lines_per_mem))
     port map (
             sel  => comandos.zMem,
             in_0  => endereco_dado, --dado para popular mem

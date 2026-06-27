@@ -14,7 +14,7 @@ entity ula is
         inic: in  std_logic;
         escalar: in  signed(W-1 downto 0);
         op_code: in  std_logic_vector(2 downto 0);
-        endereco_dado : in std_logic_vector(5 downto 0);
+        endereco_dado : in std_logic_vector(ceil_log2(N*N)-1 downto 0);
         pronto: out std_logic
     );
 end entity ula;
