@@ -16,15 +16,14 @@ entity ula_bo is
     rst : in std_logic;
 
     comandos : in comandos_t;
+    status   : out status_t;
 
     elementoA : in signed(CFG.bits_per_element - 1 downto 0);
     elementoB : in signed(CFG.bits_per_element - 1 downto 0);
     escalar   : in signed(CFG.bits_per_element - 1 downto 0);
     op_code   : in std_logic_vector(2 downto 0);
 
-    
-    status   : out status_t;
-	 address_end : out std_logic_vector(ceil_log2(CFG.lines_per_mem) - 1 downto 0); --log2 do numero de linhas da memoria [tamanho da variável end]
+    address_end : out std_logic_vector(ceil_log2(CFG.lines_per_mem) - 1 downto 0); --log2 do numero de linhas da memoria [tamanho da variável end]
     elementoC   : out signed(ula_length(bits_per_value => CFG.bits_per_element, matrix_size => get_matrix_order(CFG.lines_per_mem)) - 1 downto 0)
   );
 end ula_bo;
@@ -33,7 +32,7 @@ architecture arch of ula_bo is
 
 --CONSTANTES RECORRENTES
   constant matrix_order          : positive := get_matrix_order(CFG.lines_per_mem);
-  constant address_matrix_length : positive := ceil_log2(matrix_order); 
+  constant address_matrix_length : positive := 4;
   constant ula_len               : positive := ula_length(bits_per_value => CFG.bits_per_element, matrix_size => matrix_order);
 
   signal address_i : std_logic_vector(address_matrix_length - 1 downto 0);
@@ -55,7 +54,6 @@ architecture arch of ula_bo is
   signal banco_A_out     : signed(CFG.bits_per_element - 1 downto 0);
   signal banco_B_out     : signed(CFG.bits_per_element - 1 downto 0);
   signal banco_C_out     : signed(ula_len - 1 downto 0);
-  signal a_transposto    : signed(ula_len - 1 downto 0);
 
   --signals das operações
   signal soma_out            : signed(CFG.bits_per_element downto 0); --N+1 bits de saída
@@ -74,6 +72,8 @@ architecture arch of ula_bo is
   signal mult_escalar_out_reajustado : signed(ula_len - 1 downto 0);
 
   signal mult_matricial_out : signed(ula_len - 1 downto 0);
+
+  signal resize_reg_a_out_ula_len: signed(ula_len-1 downto 0);
 
 begin
 
@@ -180,8 +180,7 @@ begin
       y    => mux_reg_saida_J_out
     );
 
-  a_transposto <= resize(reg_A_out, ula_len);
-
+  resize_reg_a_out_ula_len <= resize(reg_A_out, ula_len);
   MUX_OPCODE : entity work.mux_8to1(rtl)
     generic map(N => ula_len)
     port map
@@ -189,7 +188,7 @@ begin
       sel  => std_logic_vector(reg_op_code_out),
       in_0 => soma_out_reajustado,
       in_1 => subtracao_out_reajustado,
-      in_2 => a_transposto, --não existe módulo específico para transposição
+      in_2 => resize_reg_a_out_ula_len, --não existe módulo específico para transposição
       in_3 => mult_escalar_out_reajustado,
       in_4 => convolucao_out_reajustado,
       in_5 => mult_matricial_out,

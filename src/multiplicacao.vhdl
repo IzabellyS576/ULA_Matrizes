@@ -19,6 +19,7 @@ entity multiplicacao is
     comandos : in comandos_t;
 
     multi : out signed(ula_length(W, N) - 1 downto 0)
+    --multi : out signed(18 downto 0)
 
   );
 end multiplicacao;
